@@ -3,7 +3,6 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { getRandomColor } from '../utils/getRandomColor';
-import am5locales_en_US from "@amcharts/amcharts5/locales/en_US";
 import am5locales_de_DE from "@amcharts/amcharts5/locales/de_DE";
 
 
@@ -45,8 +44,8 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
         root.locale = am5locales_de_DE;
 
         let chart = root.container.children.push(am5xy.XYChart.new(root, {
-            panX: true,
-            panY: true,
+            panX: false,
+            panY: false,
             wheelY: "zoomXY",
             pinchZoomX: true,
             pinchZoomY: true,
@@ -118,7 +117,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
         });
 
 
-        let circleTemplate = am5.Template.new({});
+        let circleTemplate: am5.Template<am5.Circle> = am5.Template.new({});
         circleTemplate.adapters.add("fill", function (fill, target) {
             let dataItem = target.dataItem;
             if (dataItem) {
@@ -163,14 +162,59 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
             dataAxis
         );
 
-        chart.set("cursor", am5xy.XYCursor.new(root, {
-            xAxis: xAxis,
-            yAxis: yAxis,
-            snapToSeries: [series]
+        let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+            //xAxis: xAxis,
+            //yAxis: yAxis,
+            //snapToSeries: [series]
+
+            behavior: "selectXY"
+
         }));
 
+        cursor.events.on("selectended", function (ev) {
 
-        setScrollbars(chart, root);
+            // Get actors
+            let cursor = ev.target;
+
+            console.log("Evento Target:", cursor);
+
+            let x1 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("downPositionX")!));
+            let x2 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("positionX")!));
+            let y1 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("downPositionY")!));
+            let y2 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("positionY")!));
+
+            // Assemble bounds
+            let bounds = {
+                left: x1 > x2 ? x2 : x1,
+                right: x1 > x2 ? x1 : x2,
+                top: y1 < y2 ? y1 : y2,
+                bottom: y1 < y2 ? y2 : y1
+            };
+
+
+            // Filter data items within boundaries
+            let results: am5.DataItem<am5xy.ILineSeriesDataItem>[] = [];
+            am5.array.each(series.dataItems, function (dataItem) {
+                let x = dataItem.get("valueX");
+                let y = dataItem.get("valueY");
+                //let z = dataItem.get("valueZ");
+                if (am5.math.inBounds({ x: x!, y: y! }, bounds)) {
+                    results.push(dataItem);
+                }
+            });
+
+
+
+            // Results
+            console.log(results);
+
+
+        });
+
+
+
+
+        //setScrollbars(chart, root);
 
         series.appear(1000);
         chart.appear(1000, 100);
