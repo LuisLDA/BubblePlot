@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@amcharts/amcharts5": "^5.9.8",
+    "@ant-design/icons": "^5.3.7",
     "@types/react": "^18.3.2",
     "antd": "^5.17.3"
   },

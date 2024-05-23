@@ -17,6 +17,7 @@
  * under the License.
  */
 import { ChartProps, TimeseriesDataRecord } from '@superset-ui/core';
+import { BubblePlotProps } from '../types';
 
 export default function transformProps(chartProps: ChartProps) {
   /**
@@ -48,11 +49,16 @@ export default function transformProps(chartProps: ChartProps) {
    * function during development with hot reloading, changes won't
    * be seen until restarting the development server.
    */
-  const { width, height, formData, queriesData } = chartProps;
+  const { width, height, formData, queriesData, hooks, filterState, emitCrossFilters } = chartProps;
   const { boldText, headerFontSize, headerText } = formData;
   const data = queriesData[0].data as TimeseriesDataRecord[];
 
+
+  const { setDataMask = () => { }, onContextMenu } = hooks;
+
   console.log('formData via TransformProps.ts', formData);
+  console.log('filterState via TransformProps.ts', filterState);
+  console.log('setDataMask via TransformProps.ts', setDataMask);
 
   return {
     width,
@@ -62,5 +68,10 @@ export default function transformProps(chartProps: ChartProps) {
     boldText,
     headerFontSize,
     headerText,
+    //Data add
+    setDataMask,
+    onContextMenu,
+    filterState,
+    emitCrossFilters,
   };
 }

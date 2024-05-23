@@ -3,9 +3,11 @@ import { Select, Space } from 'antd';
 import { useFilter } from '../hooks/useFilter';
 import { mapToBubbleData } from '../data/mappers';
 import { useBubbleGraph } from '../hooks/useBubbleGraph';
+import { Tag } from "antd";
+import { FilterOutlined } from '@ant-design/icons';
 
 
-export const BubbleChart = ({ data, width, height }: { data: any[]; width: number; height: number }) => {
+export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }: { data: any[]; width: number; height: number; filterPosts: any; setFilterPost: any }) => {
 
   const {
     filterAxisX,
@@ -24,11 +26,22 @@ export const BubbleChart = ({ data, width, height }: { data: any[]; width: numbe
   const [dataAxis, setDataAxis] = useState(mapToBubbleData(data, filterAxisX, filterAxisY));
 
 
-  useBubbleGraph({ id: "chartdiv", filterAxisX, filterAxisY, dataAxis });
+  const { resultsSelected } = useBubbleGraph({ id: "chartdiv", filterAxisX, filterAxisY, dataAxis });
 
+  if (resultsSelected && resultsSelected.length > 0) {
+    console.log('Selected BubbleChart:', resultsSelected);
+    setFilterPost(resultsSelected.map(item => ({ id_page: item })));
 
-  useEffect(() => { 
-    setDataAxis(mapToBubbleData(data, filterAxisX, filterAxisY)) 
+    // @ts-ignore
+    if (resultsSelected.includes("none")) {
+      setFilterPost([]);
+    } else {
+      setFilterPost(resultsSelected.map(item => ({ id_page: item })));
+    }
+  }
+
+  useEffect(() => {
+    setDataAxis(mapToBubbleData(data, filterAxisX, filterAxisY))
   }, [filterAxisX, filterAxisY])
 
 
@@ -37,7 +50,7 @@ export const BubbleChart = ({ data, width, height }: { data: any[]; width: numbe
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "row", width: width }}>
+      <div style={{ display: "flex", flexDirection: "row", width: width, position: "relative" }}>
 
         <Space wrap>
           <Select
@@ -71,6 +84,28 @@ export const BubbleChart = ({ data, width, height }: { data: any[]; width: numbe
 
         </div>
 
+        {filterPosts.length > 0 &&
+          (
+            <div
+              style={{
+                position: "absolute",
+                top: 20,
+                right: 20
+              }}
+            >
+              <Tag
+                color='#2db7f5'
+                closable={true}
+                style={{ userSelect: 'none' }}
+                onClose={() => setFilterPost([])}
+              >
+                <FilterOutlined />
+              </Tag>
+
+            </div>
+          )
+        }
+        
       </div>
 
     </>

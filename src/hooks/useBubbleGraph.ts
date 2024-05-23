@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
@@ -8,6 +8,20 @@ import am5locales_de_DE from "@amcharts/amcharts5/locales/de_DE";
 
 export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id: string, filterAxisX: any, filterAxisY: any, dataAxis: any[] }) => {
 
+
+
+    const [resultsSelected, setResultsSelected] = useState([])
+
+
+    /*useEffect(() => {
+        const filterPostSelecteds = resultsSelected.map((id) => {
+            //return data.find((row) => row.id_page === id);
+            return { id_page: id }
+        }) ?? [];
+
+        console.log("filterPostSelecteds", filterPostSelecteds);
+        setFilterPost(filterPostSelecteds);
+    }, [resultsSelected])*/
 
 
     const tooltipHtml: string =
@@ -54,7 +68,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
         let xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
             min: 0,
             renderer: am5xy.AxisRendererX.new(root, {}),
-            tooltip: am5.Tooltip.new(root, {}),
+            //tooltip: am5.Tooltip.new(root, {}),
         }));
 
         // xAxis.children.moveValue(am5.Label.new(root, {
@@ -68,7 +82,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
             renderer: am5xy.AxisRendererY.new(root, {
                 inversed: false,
             }),
-            tooltip: am5.Tooltip.new(root, {})
+            //tooltip: am5.Tooltip.new(root, {})
         }));
 
         // yAxis.children.moveValue(am5.Label.new(root, {
@@ -99,7 +113,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
             valueField: "value",
             //maskBullets: false,
             seriesTooltipTarget: "bullet",
-            tooltip: tooltip
+            tooltip: tooltip,
         }));
 
 
@@ -166,9 +180,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
             //xAxis: xAxis,
             //yAxis: yAxis,
             //snapToSeries: [series]
-
-            behavior: "selectXY"
-
+            behavior: "selectXY",
         }));
 
         cursor.events.on("selectended", function (ev) {
@@ -204,10 +216,28 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
             });
 
 
-
             // Results
-            console.log(results);
+            //console.log(results);
 
+            /*const filterPostSelecteds = results.map((item) => item.dataContext!!.id_page).map((id) => {
+                //return data.find((row) => row.id_page === id);
+                return { id_page: id }
+            }) ?? [];
+
+            console.log("filterPostSelecteds", filterPostSelecteds);
+            setFilterPost(filterPostSelecteds);*/
+
+            // @ts-ignore
+            //console.log(results.map((item) => item.dataContext!!.id_page));
+            // @ts-ignore
+
+            if (results.length === 0) {
+                // @ts-ignore
+                setResultsSelected(["none"] as string[]);
+            } else {
+                // @ts-ignore
+                setResultsSelected(results.map((item) => item.dataContext!!.id_page));
+            }
 
         });
 
@@ -234,6 +264,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
         dataAxis,
         filterAxisX,
         filterAxisY,
+        resultsSelected
     }
 }
 

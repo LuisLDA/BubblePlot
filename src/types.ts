@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { QueryFormData, supersetTheme, TimeseriesDataRecord } from '@superset-ui/core';
+import { ChartProps, FilterState, QueryFormData, supersetTheme, TimeseriesDataRecord, DataRecordFilters } from '@superset-ui/core';
+import { SetDataMaskHook } from "@superset-ui/core/lib/chart/types/Base";
 
 export interface BubblePlotStylesProps {
   height: number;
@@ -33,8 +34,14 @@ export type BubblePlotQueryFormData = QueryFormData &
   BubblePlotStylesProps &
   BubblePlotCustomizeProps;
 
-export type BubblePlotProps = BubblePlotStylesProps &
-  BubblePlotCustomizeProps & {
-    data: TimeseriesDataRecord[];
-    // add typing here for the props you pass in from transformProps.ts!
-  };
+export interface BubblePlotProps extends ChartProps<BubblePlotQueryFormData> {
+  data: TimeseriesDataRecord[];
+  // add typing here for the props you pass in from transformProps.ts!
+  setDataMask: SetDataMaskHook,
+  filterState: FilterState,
+  emitCrossFilters?: boolean,
+  headerFontSize: keyof typeof supersetTheme.typography.sizes;
+  boldText: boolean;
+  headerText: string;
+  filters?: DataRecordFilters;
+};

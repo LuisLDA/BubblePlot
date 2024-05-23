@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export const useFilter = ({valueX, valueY}: {valueX: string, valueY: string}) => {
+export const useFilter = ({valueX, valueY,}: {valueX: string, valueY: string}) => {
     const [filter, setFilter] = useState({
         filterAxisX: valueX,
         filterAxisY: valueY

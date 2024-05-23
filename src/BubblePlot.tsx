@@ -16,11 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useEffect, createRef } from 'react';
+import React, { useEffect, createRef, useState } from 'react';
 import { styled } from '@superset-ui/core';
 import { BubblePlotProps, BubblePlotStylesProps } from './types';
 import { BubbleChart } from './components/BubbleChart';
-import { fakeData } from './data/fakeData';
 
 // The following Styles component is a <div> element, which has been styled using Emotion
 // For docs, visit https://emotion.sh/docs/styled
@@ -75,9 +74,49 @@ export default function BubblePlot(props: BubblePlotProps) {
 
   console.log('Plugin props', props);
 
+  const [filterPost, setFilterPost] = useState(props.filterState?.filters?.id_page ?? []);
+
+  useEffect(() => {
+  
+    console.log('useEffect de BubblePlot:', filterPost);
+    
+    const dataMask = {
+      extraFormData: {
+        filters:
+          filterPost.length > 0 ? ['id_page'].map((col, idx) => {
+            return {
+              col,
+              op: 'IN' as const,
+              val: filterPost.map((row) => row.id_page) as (string | number | boolean)[],
+            };
+          }) : [],
+      },
+      filterState: {
+        value: [filterPost.map((row) => row.id_page)],
+        selectedValues: ['any'],
+        filters: {
+          'id_page': filterPost
+        }
+      },
+    };
+    //console.log('dataMask', dataMask);
+    props.setDataMask(dataMask);
+  }, [filterPost])
 
   return (
-    <BubbleChart data={data} width={width} height={height} />
+
+
+    <BubbleChart data={data} width={width} height={height} filterPosts = {filterPost} setFilterPost={setFilterPost} />
+
+    // <Styles
+    //   ref={rootElem}
+    //   boldText={props.boldText}
+    //   headerFontSize={props.headerFontSize}
+    //   height={height}
+    //   width={width}
+    // >
+
+    // </Styles>
 
     // <Styles
     //   ref={rootElem}
