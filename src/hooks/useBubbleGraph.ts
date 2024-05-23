@@ -165,7 +165,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
             );
 
             return am5.Bullet.new(root, {
-                sprite: bulletContainer
+                sprite: bulletContainer,
             });
         });
 
@@ -179,7 +179,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
         let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
             //xAxis: xAxis,
             //yAxis: yAxis,
-            //snapToSeries: [series]
+            //snapToSeries: [series],
             behavior: "selectXY",
         }));
 
@@ -231,13 +231,10 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
             //console.log(results.map((item) => item.dataContext!!.id_page));
             // @ts-ignore
 
-            if (results.length === 0) {
-                // @ts-ignore
-                setResultsSelected(["none"] as string[]);
-            } else {
-                // @ts-ignore
-                setResultsSelected(results.map((item) => item.dataContext!!.id_page));
-            }
+
+            // @ts-ignore
+            setResultsSelected(results.map((item) => item.dataContext!!.id_page));
+
 
         });
 

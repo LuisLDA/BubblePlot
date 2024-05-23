@@ -14,7 +14,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
     filterAxisY,
     setFilterAxisX,
     setFilterAxisY
-  } = useFilter({ valueX: "comments", valueY: "shares" });
+  } = useFilter({ valueX: "Comentarios", valueY: "Compartidos" });
 
 
 
@@ -33,11 +33,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
     setFilterPost(resultsSelected.map(item => ({ id_page: item })));
 
     // @ts-ignore
-    if (resultsSelected.includes("none")) {
-      setFilterPost([]);
-    } else {
-      setFilterPost(resultsSelected.map(item => ({ id_page: item })));
-    }
+    setFilterPost(resultsSelected.map(item => ({ id_page: item })));
   }
 
   useEffect(() => {
@@ -105,7 +101,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
             </div>
           )
         }
-        
+
       </div>
 
     </>
