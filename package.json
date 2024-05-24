@@ -35,7 +35,7 @@
   "peerDependencies": {
     "@superset-ui/chart-controls": "*",
     "@superset-ui/core": "*",
-    "react": "*"
+    "react": "^16.13.1"
   },
   "devDependencies": {
     "@airbnb/config-babel": "^2.0.1",

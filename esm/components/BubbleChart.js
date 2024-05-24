@@ -13,39 +13,33 @@ export var BubbleChart = _ref => {
     filterPosts,
     setFilterPost
   } = _ref;
+  var optionsDropdown = Object.keys(data[0]).filter(key => !(key === "id" || key === "id_page" || key === "username" || key === "red" || key === "red_name")).map(key => ({
+    value: key,
+    label: key
+  }));
   var {
     filterAxisX,
     filterAxisY,
     setFilterAxisX,
     setFilterAxisY
   } = useFilter({
-    valueX: "Comentarios",
-    valueY: "Compartidos"
+    valueX: optionsDropdown[0].value,
+    valueY: optionsDropdown[1].value
   });
-  var optionsDropdown = Object.keys(data[0]).filter(key => !(key === "id" || key === "id_page" || key === "username" || key === "red" || key === "red_name")).map(key => ({
-    value: key,
-    label: key
-  }));
   var [dataAxis, setDataAxis] = useState(mapToBubbleData(data, filterAxisX, filterAxisY));
-  var {
-    resultsSelected
-  } = useBubbleGraph({
+  useBubbleGraph({
     id: "chartdiv",
     filterAxisX,
     filterAxisY,
-    dataAxis
+    dataAxis,
+    setFilterPost
   });
-  if (resultsSelected && resultsSelected.length > 0) {
-    console.log('Selected BubbleChart:', resultsSelected);
-    setFilterPost(resultsSelected.map(item => ({
-      id_page: item
-    })));
 
-    // @ts-ignore
-    setFilterPost(resultsSelected.map(item => ({
-      id_page: item
-    })));
-  }
+  /*if (resultsSelected && resultsSelected.length > 0) {
+    console.log('Selected BubbleChart:', resultsSelected);
+    setFilterPost(resultsSelected.map(item => ({ id_page: item })));
+  }*/
+
   useEffect(() => {
     setDataAxis(mapToBubbleData(data, filterAxisX, filterAxisY));
   }, [filterAxisX, filterAxisY]);

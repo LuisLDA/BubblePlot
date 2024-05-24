@@ -9,7 +9,8 @@ export var useBubbleGraph = _ref => {
     id,
     filterAxisX,
     filterAxisY,
-    dataAxis
+    dataAxis,
+    setFilterPost
   } = _ref;
   var [resultsSelected, setResultsSelected] = useState([]);
 
@@ -156,7 +157,13 @@ export var useBubbleGraph = _ref => {
       });
 
       // Results
-      //console.log(results);
+      console.log(results);
+      // @ts-ignore
+      setFilterPost(results.map(item => {
+        return {
+          id_page: item.dataContext.id_page
+        };
+      }));
 
       /*const filterPostSelecteds = results.map((item) => item.dataContext!!.id_page).map((id) => {
           //return data.find((row) => row.id_page === id);
@@ -170,7 +177,7 @@ export var useBubbleGraph = _ref => {
       // @ts-ignore
 
       // @ts-ignore
-      setResultsSelected(results.map(item => item.dataContext.id_page));
+      //setResultsSelected(results.map((item) => item.dataContext!!.id_page));
     });
 
     //setScrollbars(chart, root);

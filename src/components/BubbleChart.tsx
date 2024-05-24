@@ -9,12 +9,7 @@ import { FilterOutlined } from '@ant-design/icons';
 
 export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }: { data: any[]; width: number; height: number; filterPosts: any; setFilterPost: any }) => {
 
-  const {
-    filterAxisX,
-    filterAxisY,
-    setFilterAxisX,
-    setFilterAxisY
-  } = useFilter({ valueX: "Comentarios", valueY: "Compartidos" });
+
 
 
 
@@ -23,18 +18,23 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
     .map(key => ({ value: key, label: key }));
 
 
+  const {
+    filterAxisX,
+    filterAxisY,
+    setFilterAxisX,
+    setFilterAxisY
+  } = useFilter({ valueX: optionsDropdown[0].value, valueY: optionsDropdown[1].value });
+
+
   const [dataAxis, setDataAxis] = useState(mapToBubbleData(data, filterAxisX, filterAxisY));
 
 
-  const { resultsSelected } = useBubbleGraph({ id: "chartdiv", filterAxisX, filterAxisY, dataAxis });
+  useBubbleGraph({ id: "chartdiv", filterAxisX, filterAxisY, dataAxis, setFilterPost });
 
-  if (resultsSelected && resultsSelected.length > 0) {
+  /*if (resultsSelected && resultsSelected.length > 0) {
     console.log('Selected BubbleChart:', resultsSelected);
     setFilterPost(resultsSelected.map(item => ({ id_page: item })));
-
-    // @ts-ignore
-    setFilterPost(resultsSelected.map(item => ({ id_page: item })));
-  }
+  }*/
 
   useEffect(() => {
     setDataAxis(mapToBubbleData(data, filterAxisX, filterAxisY))

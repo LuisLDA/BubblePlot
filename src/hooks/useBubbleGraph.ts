@@ -6,7 +6,7 @@ import { getRandomColor } from '../utils/getRandomColor';
 import am5locales_de_DE from "@amcharts/amcharts5/locales/de_DE";
 
 
-export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id: string, filterAxisX: any, filterAxisY: any, dataAxis: any[] }) => {
+export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilterPost }: { id: string, filterAxisX: any, filterAxisY: any, dataAxis: any[], setFilterPost: any }) => {
 
 
 
@@ -217,7 +217,9 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
 
 
             // Results
-            //console.log(results);
+            console.log(results);
+            // @ts-ignore
+            setFilterPost(results.map((item) => {return { id_page: item.dataContext!!.id_page }}));
 
             /*const filterPostSelecteds = results.map((item) => item.dataContext!!.id_page).map((id) => {
                 //return data.find((row) => row.id_page === id);
@@ -232,8 +234,10 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis }: { id:
             // @ts-ignore
 
 
+
+
             // @ts-ignore
-            setResultsSelected(results.map((item) => item.dataContext!!.id_page));
+            //setResultsSelected(results.map((item) => item.dataContext!!.id_page));
 
 
         });
