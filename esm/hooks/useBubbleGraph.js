@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
@@ -12,17 +12,6 @@ export var useBubbleGraph = _ref => {
     dataAxis,
     setFilterPost
   } = _ref;
-  var [resultsSelected, setResultsSelected] = useState([]);
-
-  /*useEffect(() => {
-      const filterPostSelecteds = resultsSelected.map((id) => {
-          //return data.find((row) => row.id_page === id);
-          return { id_page: id }
-      }) ?? [];
-       console.log("filterPostSelecteds", filterPostSelecteds);
-      setFilterPost(filterPostSelecteds);
-  }, [resultsSelected])*/
-
   var tooltipHtml = "\n      <div style=\"display:flex;gap:8px;align-items:center;\">\n        <div style=\"display:flex;flex-direction:column\">\n            <img src=\"{bulletSettings.src}\" style=\"width: 50px; height: 50px; margin: 0 auto; display: block; border-radius: 25px\"/>      \n        </div>\n        <div style=\"display:flex;flex-direction:column\">\n            <span style=\"font-weight:bold;\">Usuario:</span>\n            <span style=\"font-weight:bold;\">Red Social:</span>\n            <span style=\"font-weight:bold;\">" + filterAxisX + ":</span>\n            <span style=\"font-weight:bold;\">" + filterAxisY + ":</span>\n            <span style=\"font-weight:bold;\">Interacciones:</span>\n        </div>\n        <div style=\"display:flex;flex-direction:column\">\n            <span style=\"float: right;\">{user}</span>\n            <span style=\"float: right;\">{red}</span>\n            <span style=\"float: right;\">{valueX}</span>\n            <span style=\"float: right;\">{valueY}</span>\n            <span style=\"float: right;\">{value}</span>\n        </div>\n     </div>";
   useLayoutEffect(() => {
     var _root$_logo, _tooltip$get;
@@ -164,20 +153,6 @@ export var useBubbleGraph = _ref => {
           id_page: item.dataContext.id_page
         };
       }));
-
-      /*const filterPostSelecteds = results.map((item) => item.dataContext!!.id_page).map((id) => {
-          //return data.find((row) => row.id_page === id);
-          return { id_page: id }
-      }) ?? [];
-       console.log("filterPostSelecteds", filterPostSelecteds);
-      setFilterPost(filterPostSelecteds);*/
-
-      // @ts-ignore
-      //console.log(results.map((item) => item.dataContext!!.id_page));
-      // @ts-ignore
-
-      // @ts-ignore
-      //setResultsSelected(results.map((item) => item.dataContext!!.id_page));
     });
 
     //setScrollbars(chart, root);
@@ -191,8 +166,7 @@ export var useBubbleGraph = _ref => {
   return {
     dataAxis,
     filterAxisX,
-    filterAxisY,
-    resultsSelected
+    filterAxisY
   };
 };
 var setScrollbars = (chart, root) => {

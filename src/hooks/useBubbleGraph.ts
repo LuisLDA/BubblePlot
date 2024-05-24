@@ -10,18 +10,6 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
 
 
 
-    const [resultsSelected, setResultsSelected] = useState([])
-
-
-    /*useEffect(() => {
-        const filterPostSelecteds = resultsSelected.map((id) => {
-            //return data.find((row) => row.id_page === id);
-            return { id_page: id }
-        }) ?? [];
-
-        console.log("filterPostSelecteds", filterPostSelecteds);
-        setFilterPost(filterPostSelecteds);
-    }, [resultsSelected])*/
 
 
     const tooltipHtml: string =
@@ -221,25 +209,6 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             // @ts-ignore
             setFilterPost(results.map((item) => {return { id_page: item.dataContext!!.id_page }}));
 
-            /*const filterPostSelecteds = results.map((item) => item.dataContext!!.id_page).map((id) => {
-                //return data.find((row) => row.id_page === id);
-                return { id_page: id }
-            }) ?? [];
-
-            console.log("filterPostSelecteds", filterPostSelecteds);
-            setFilterPost(filterPostSelecteds);*/
-
-            // @ts-ignore
-            //console.log(results.map((item) => item.dataContext!!.id_page));
-            // @ts-ignore
-
-
-
-
-            // @ts-ignore
-            //setResultsSelected(results.map((item) => item.dataContext!!.id_page));
-
-
         });
 
 
@@ -265,7 +234,6 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
         dataAxis,
         filterAxisX,
         filterAxisY,
-        resultsSelected
     }
 }
 

@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useEffect, createRef, useState } from 'react';
-import { styled } from '@superset-ui/core';
-import { BubblePlotProps, BubblePlotStylesProps } from './types';
+import React, { useEffect, useState } from 'react';
+//import { styled } from '@superset-ui/core';
+import { BubblePlotProps } from './types';
 import { BubbleChart } from './components/BubbleChart';
 
 // The following Styles component is a <div> element, which has been styled using Emotion
@@ -28,27 +28,27 @@ import { BubbleChart } from './components/BubbleChart';
 // imported from @superset-ui/core. For variables available, please visit
 // https://github.com/apache-superset/superset-ui/blob/master/packages/superset-ui-core/src/style/index.ts
 
-const Styles = styled.div<BubblePlotStylesProps>`
-  background-color: ${({ theme }) => theme.colors.secondary.light2};
-  padding: ${({ theme }) => theme.gridUnit * 4}px;
-  border-radius: ${({ theme }) => theme.gridUnit * 2}px;
-  height: ${({ height }) => height}px;
-  width: ${({ width }) => width}px;
+// const Styles = styled.div<BubblePlotStylesProps>`
+//   background-color: ${({ theme }) => theme.colors.secondary.light2};
+//   padding: ${({ theme }) => theme.gridUnit * 4}px;
+//   border-radius: ${({ theme }) => theme.gridUnit * 2}px;
+//   height: ${({ height }) => height}px;
+//   width: ${({ width }) => width}px;
 
-  h3 {
-    /* You can use your props to control CSS! */
-    margin-top: 0;
-    margin-bottom: ${({ theme }) => theme.gridUnit * 3}px;
-    font-size: ${({ theme, headerFontSize }) => theme.typography.sizes[headerFontSize]}px;
-    font-weight: ${({ theme, boldText }) => theme.typography.weights[boldText ? 'bold' : 'normal']};
-  }
+//   h3 {
+//     /* You can use your props to control CSS! */
+//     margin-top: 0;
+//     margin-bottom: ${({ theme }) => theme.gridUnit * 3}px;
+//     font-size: ${({ theme, headerFontSize }) => theme.typography.sizes[headerFontSize]}px;
+//     font-weight: ${({ theme, boldText }) => theme.typography.weights[boldText ? 'bold' : 'normal']};
+//   }
 
-  pre {
-    height: ${({ theme, headerFontSize, height }) => (
-    height - theme.gridUnit * 12 - theme.typography.sizes[headerFontSize]
-  )}px;
-  }
-`;
+//   pre {
+//     height: ${({ theme, headerFontSize, height }) => (
+//     height - theme.gridUnit * 12 - theme.typography.sizes[headerFontSize]
+//   )}px;
+//   }
+// `;
 
 /**
  * ******************* WHAT YOU CAN BUILD HERE *******************
@@ -63,23 +63,24 @@ export default function BubblePlot(props: BubblePlotProps) {
   // There is also a `data` prop, which is, of course, your DATA 🎉
   const { data, height, width } = props;
 
-  const rootElem = createRef<HTMLDivElement>();
+  //const rootElem = createRef<HTMLDivElement>();
 
   // Often, you just want to access the DOM and do whatever you want.
   // Here, you can do that with createRef, and the useEffect hook.
-  useEffect(() => {
-    const root = rootElem.current as HTMLElement;
-    console.log('Plugin element', root);
-  });
+  // useEffect(() => {
+  //   const root = rootElem.current as HTMLElement;
+  //   console.log('Plugin element', root);
+  // });
 
   console.log('Plugin props', props);
 
   const [filterPost, setFilterPost] = useState(props.filterState?.filters?.id_page ?? []);
 
+  //const [filterPost, setFilterPost] = useState([]);
+
+
   useEffect(() => {
-  
-    console.log('useEffect de BubblePlot:', filterPost);
-    
+    console.log('DATA BUBBLEPLOT:', filterPost);
     const dataMask = {
       extraFormData: {
         filters:
