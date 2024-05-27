@@ -158,7 +158,9 @@ export var useBubbleGraph = _ref => {
         };
       }));
     });
-    setScrollbars(chart, root);
+
+    //setScrollbars(chart, root);
+
     series.appear(1000);
     chart.appear(1000, 100);
     return () => {
