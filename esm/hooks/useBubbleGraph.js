@@ -27,7 +27,8 @@ export var useBubbleGraph = _ref => {
       pinchZoomY: true
     }));
     var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
-      min: 0,
+      min: -100,
+      maxDeviation: 0.4,
       renderer: am5xy.AxisRendererX.new(root, {})
       //tooltip: am5.Tooltip.new(root, {}),
     }));
@@ -39,7 +40,8 @@ export var useBubbleGraph = _ref => {
     // }), xAxis.children.length - 1);
 
     var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-      min: 0,
+      min: -100,
+      maxDeviation: 0.4,
       renderer: am5xy.AxisRendererY.new(root, {
         inversed: false
       })
@@ -156,9 +158,7 @@ export var useBubbleGraph = _ref => {
         };
       }));
     });
-
-    //setScrollbars(chart, root);
-
+    setScrollbars(chart, root);
     series.appear(1000);
     chart.appear(1000, 100);
     return () => {
@@ -182,20 +182,20 @@ var setScrollbars = (chart, root) => {
 var setHeatRules = (series, circleTemplate, imageTemplate) => {
   series.set("heatRules", [{
     target: circleTemplate,
-    min: 3,
-    max: 60,
+    min: 8,
+    max: 16,
     dataField: "value",
     key: "radius"
   }, {
     target: imageTemplate,
-    min: 6,
-    max: 120,
+    min: 16,
+    max: 32,
     dataField: "value",
     key: "width"
   }, {
     target: imageTemplate,
-    min: 6,
-    max: 120,
+    min: 16,
+    max: 32,
     dataField: "value",
     key: "height"
   }]);

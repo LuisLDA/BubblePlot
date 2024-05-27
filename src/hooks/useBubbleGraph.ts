@@ -54,7 +54,8 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
         }));
 
         let xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
-            min: 0,
+            min: -100,
+            maxDeviation: 0.4,
             renderer: am5xy.AxisRendererX.new(root, {}),
             //tooltip: am5.Tooltip.new(root, {}),
         }));
@@ -66,7 +67,8 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
         // }), xAxis.children.length - 1);
 
         let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-            min: 0,
+            min: -100,
+            maxDeviation: 0.4,
             renderer: am5xy.AxisRendererY.new(root, {
                 inversed: false,
             }),
@@ -252,21 +254,21 @@ const setHeatRules = (series: am5xy.LineSeries, circleTemplate: am5.Template<am5
     series.set("heatRules", [
         {
             target: circleTemplate,
-            min: 3,
-            max: 60,
+            min: 8,
+            max: 16,
             dataField: "value",
             key: "radius"
         },
         {
             target: imageTemplate,
-            min: 6,
-            max: 120,
+            min: 16,
+            max: 32,
             dataField: "value",
             key: "width"
         }, {
             target: imageTemplate,
-            min: 6,
-            max: 120,
+            min: 16,
+            max: 32,
             dataField: "value",
             key: "height"
         }
