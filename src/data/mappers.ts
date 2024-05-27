@@ -4,14 +4,14 @@ import { getImageUser } from "../utils/getImageUser";
 export const mapToBubbleData = (data: AnyObject[], filterAxisX: string, filterAxisY: string) => {
   return data.map((item: AnyObject) => {
     return {
-      "id_page": item.id_page,
-      "title": item.id,
-      "user": item.username,
-      "red": item.red_name,
+      "id_page": item.ID_PAGE,
+      "title": item.ID,
+      "user": item.USERNAME,
+      "red": item.RED_NAME,
       "x": item[filterAxisX],
       "y": item[filterAxisY],
       "value": item.interactions,
-      bulletSettings: { src: getImageUser(item.id_page, item.username, item.red) }
+      bulletSettings: { src: getImageUser(item.ID_PAGE, item.USERNAME, item.RED) }
     }
   });
 }

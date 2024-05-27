@@ -14,7 +14,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
 
 
   const optionsDropdown = Object.keys(data[0])
-    .filter(key => !(key === "id" || key === "id_page" || key === "username" || key === "red" || key === "red_name"))
+    .filter(key => !(key === "ID" || key === "ID_PAGE" || key === "USERNAME" || key === "RED" || key === "RED_NAME"))
     .map(key => ({ value: key, label: key }));
 
 
