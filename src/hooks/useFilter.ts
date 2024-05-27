@@ -9,12 +9,12 @@ export const useFilter = ({valueX, valueY,}: {valueX: string, valueY: string}) =
     const { filterAxisX, filterAxisY } = filter;
 
     const setFilterAxisX = (value: string) => {
-        console.log(`selected X: ${value}`);
+        //console.log(`selected X: ${value}`);
         setFilter({ ...filter, filterAxisX: value })
     }
 
     const setFilterAxisY = (value: string) => {
-        console.log(`selected Y: ${value}`);
+        //console.log(`selected Y: ${value}`);
         setFilter({ ...filter, filterAxisY: value })
     }
 

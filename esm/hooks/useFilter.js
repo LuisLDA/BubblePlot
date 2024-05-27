@@ -14,13 +14,13 @@ export var useFilter = _ref => {
     filterAxisY
   } = filter;
   var setFilterAxisX = value => {
-    console.log("selected X: " + value);
+    //console.log(`selected X: ${value}`);
     setFilter(_extends({}, filter, {
       filterAxisX: value
     }));
   };
   var setFilterAxisY = value => {
-    console.log("selected Y: " + value);
+    //console.log(`selected Y: ${value}`);
     setFilter(_extends({}, filter, {
       filterAxisY: value
     }));

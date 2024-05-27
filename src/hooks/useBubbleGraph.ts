@@ -176,7 +176,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             // Get actors
             let cursor = ev.target;
 
-            console.log("Evento Target:", cursor);
+            //console.log("Evento Target:", cursor);
 
             let x1 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("downPositionX")!));
             let x2 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("positionX")!));
@@ -205,7 +205,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
 
 
             // Results
-            console.log(results);
+            //console.log(results);
             // @ts-ignore
             setFilterPost(results.map((item) => {return { id_page: item.dataContext!!.id_page }}));
 

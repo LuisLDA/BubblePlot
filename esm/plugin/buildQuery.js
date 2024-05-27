@@ -41,6 +41,6 @@ export default function buildQuery(formData) {
   var yyy = buildQueryContext(formData, baseQueryObject => [_extends({}, baseQueryObject, {
     columns
   })]);
-  console.log('buildQueryContext', yyy);
+  //console.log('buildQueryContext', yyy);
   return yyy;
 }

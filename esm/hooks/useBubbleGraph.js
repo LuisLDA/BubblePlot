@@ -117,7 +117,9 @@ export var useBubbleGraph = _ref => {
     cursor.events.on("selectended", function (ev) {
       // Get actors
       var cursor = ev.target;
-      console.log("Evento Target:", cursor);
+
+      //console.log("Evento Target:", cursor);
+
       var x1 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("downPositionX")));
       var x2 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("positionX")));
       var y1 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("downPositionY")));
@@ -146,7 +148,7 @@ export var useBubbleGraph = _ref => {
       });
 
       // Results
-      console.log(results);
+      //console.log(results);
       // @ts-ignore
       setFilterPost(results.map(item => {
         return {
