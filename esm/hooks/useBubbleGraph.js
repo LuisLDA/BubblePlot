@@ -106,6 +106,18 @@ export var useBubbleGraph = _ref => {
         mask: circle
       }));
       var image = imageContainer.children.push(am5.Picture.new(root, {}, imageTemplate));
+
+      // Agrega el icono de la red social
+      var socialIconTemplate = am5.Template.new({});
+      socialIconTemplate.setAll({
+        templateField: "icon",
+        centerX: am5.p50,
+        centerY: am5.p50,
+        width: 15,
+        // Ajusta el tamaño según sea necesario
+        height: 15 // Ajusta el tamaño según sea necesario
+      });
+      var socialIcon = bulletContainer.children.push(am5.Picture.new(root, {}, socialIconTemplate));
       return am5.Bullet.new(root, {
         sprite: bulletContainer
       });

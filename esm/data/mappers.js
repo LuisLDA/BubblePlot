@@ -11,6 +11,9 @@ export var mapToBubbleData = (data, filterAxisX, filterAxisY) => {
       "value": item.interactions,
       bulletSettings: {
         src: getImageUser(item.ID_PAGE, item.USERNAME, item.RED)
+      },
+      "icon": {
+        src: "https://assets.codepen.io/t-160/icon_social_twitter.svg"
       }
     };
   });

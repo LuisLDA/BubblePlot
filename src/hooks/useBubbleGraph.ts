@@ -156,6 +156,21 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
                 am5.Picture.new(root, {}, imageTemplate)
             );
 
+          
+            // Agrega el icono de la red social
+            let socialIconTemplate = am5.Template.new<am5.Picture>({});
+            socialIconTemplate.setAll({
+                templateField: "icon",
+                centerX: am5.p50,
+                centerY: am5.p50,
+                width: 15, // Ajusta el tamaño según sea necesario
+                height: 15, // Ajusta el tamaño según sea necesario
+            });
+
+            let socialIcon = bulletContainer.children.push(
+                am5.Picture.new(root, {}, socialIconTemplate)
+            );
+
             return am5.Bullet.new(root, {
                 sprite: bulletContainer,
             });
@@ -225,7 +240,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             // Results
             //console.log(results);
             // @ts-ignore
-            setFilterPost(results.map((item) => {return { ID_PAGE: item.dataContext!!.ID_PAGE }}));
+            setFilterPost(results.map((item) => { return { ID_PAGE: item.dataContext!!.ID_PAGE } }));
 
         });
 
