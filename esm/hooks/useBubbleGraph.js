@@ -25,7 +25,8 @@ export var useBubbleGraph = _ref => {
       wheelY: "zoomXY",
       pinchZoomX: true,
       pinchZoomY: true,
-      maxTooltipDistance: 0
+      maxTooltipDistance: 0,
+      arrangeTooltips: false
     }));
     var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
       min: -100,
