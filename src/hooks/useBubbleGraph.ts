@@ -2,8 +2,8 @@ import { useEffect, useLayoutEffect, useState } from "react"
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { getRandomColor } from '../utils/getRandomColor';
 import am5locales_de_DE from "@amcharts/amcharts5/locales/de_DE";
+import { getRandomColor } from '../utils/getRandomColor';
 
 
 export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilterPost }: { id: string, filterAxisX: any, filterAxisY: any, dataAxis: any[], setFilterPost: any }) => {
@@ -51,6 +51,8 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             wheelY: "zoomXY",
             pinchZoomX: true,
             pinchZoomY: true,
+            maxTooltipDistance: 0,
+            arrangeTooltips: false,
         }));
 
         let xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
@@ -84,14 +86,13 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
 
 
         let tooltip = am5.Tooltip.new(root, {
-            pointerOrientation: "horizontal",
             getFillFromSprite: false,
             labelHTML: tooltipHtml,
         });
 
         tooltip?.get("background")?.setAll({
             fill: am5.color(0x222222),
-            fillOpacity: 0.8
+            fillOpacity: 0.5
         });
 
         let series = chart.series.push(am5xy.LineSeries.new(root, {
@@ -104,6 +105,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             //maskBullets: false,
             seriesTooltipTarget: "bullet",
             tooltip: tooltip,
+            snapTooltip: true,
         }));
 
 
@@ -169,9 +171,23 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
         let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
             //xAxis: xAxis,
             //yAxis: yAxis,
-            //snapToSeries: [series],
+            snapToSeries: [series],
             behavior: "selectXY",
         }));
+
+
+        cursor.events.on("selectstarted", function (ev) {
+            // if control key is pressed init selection else pan
+            // if (ev.originalEvent.ctrlKey) {
+            //     cursor.set("behavior", "selectXY");
+            // } else {
+            //     cursor.set("behavior", "panXY");
+            // }
+
+
+
+            console.log("Evento Target Select Start:", ev.target);
+        })
 
         cursor.events.on("selectended", function (ev) {
 
@@ -209,14 +225,14 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             // Results
             //console.log(results);
             // @ts-ignore
-            setFilterPost(results.map((item) => {return { id_page: item.dataContext!!.id_page }}));
+            setFilterPost(results.map((item) => {return { ID_PAGE: item.dataContext!!.ID_PAGE }}));
 
         });
 
 
 
 
-        //setScrollbars(chart, root);
+        setScrollbars(chart, root);
 
         series.appear(1000);
         chart.appear(1000, 100);
@@ -254,20 +270,20 @@ const setHeatRules = (series: am5xy.LineSeries, circleTemplate: am5.Template<am5
     series.set("heatRules", [
         {
             target: circleTemplate,
-            min: 8,
+            min: 10,
             max: 16,
             dataField: "value",
             key: "radius"
         },
         {
             target: imageTemplate,
-            min: 16,
+            min: 20,
             max: 32,
             dataField: "value",
             key: "width"
         }, {
             target: imageTemplate,
-            min: 16,
+            min: 20,
             max: 32,
             dataField: "value",
             key: "height"

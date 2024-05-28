@@ -4,7 +4,7 @@ import { getImageUser } from "../utils/getImageUser";
 export const mapToBubbleData = (data: AnyObject[], filterAxisX: string, filterAxisY: string) => {
   return data.map((item: AnyObject) => {
     return {
-      "id_page": item.ID_PAGE,
+      "ID_PAGE": item.ID_PAGE,
       "title": item.ID,
       "user": item.USERNAME,
       "red": item.RED_NAME,

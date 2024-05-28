@@ -2,8 +2,8 @@ import React, { useLayoutEffect } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { getRandomColor } from '../utils/getRandomColor';
 import am5locales_de_DE from "@amcharts/amcharts5/locales/de_DE";
+import { getRandomColor } from '../utils/getRandomColor';
 export var useBubbleGraph = _ref => {
   var {
     id,
@@ -24,7 +24,8 @@ export var useBubbleGraph = _ref => {
       panY: false,
       wheelY: "zoomXY",
       pinchZoomX: true,
-      pinchZoomY: true
+      pinchZoomY: true,
+      maxTooltipDistance: 0
     }));
     var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
       min: -100,
@@ -56,13 +57,12 @@ export var useBubbleGraph = _ref => {
     // }), 0);
 
     var tooltip = am5.Tooltip.new(root, {
-      pointerOrientation: "horizontal",
       getFillFromSprite: false,
       labelHTML: tooltipHtml
     });
     tooltip == null || (_tooltip$get = tooltip.get("background")) == null || _tooltip$get.setAll({
       fill: am5.color(0x222222),
-      fillOpacity: 0.8
+      fillOpacity: 0.5
     });
     var series = chart.series.push(am5xy.LineSeries.new(root, {
       calculateAggregates: true,
@@ -73,7 +73,8 @@ export var useBubbleGraph = _ref => {
       valueField: "value",
       //maskBullets: false,
       seriesTooltipTarget: "bullet",
-      tooltip: tooltip
+      tooltip: tooltip,
+      snapTooltip: true
     }));
     series.strokes.template.set("visible", false);
 
@@ -113,9 +114,19 @@ export var useBubbleGraph = _ref => {
     var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
       //xAxis: xAxis,
       //yAxis: yAxis,
-      //snapToSeries: [series],
+      snapToSeries: [series],
       behavior: "selectXY"
     }));
+    cursor.events.on("selectstarted", function (ev) {
+      // if control key is pressed init selection else pan
+      // if (ev.originalEvent.ctrlKey) {
+      //     cursor.set("behavior", "selectXY");
+      // } else {
+      //     cursor.set("behavior", "panXY");
+      // }
+
+      console.log("Evento Target Select Start:", ev.target);
+    });
     cursor.events.on("selectended", function (ev) {
       // Get actors
       var cursor = ev.target;
@@ -154,13 +165,11 @@ export var useBubbleGraph = _ref => {
       // @ts-ignore
       setFilterPost(results.map(item => {
         return {
-          id_page: item.dataContext.id_page
+          ID_PAGE: item.dataContext.ID_PAGE
         };
       }));
     });
-
-    //setScrollbars(chart, root);
-
+    setScrollbars(chart, root);
     series.appear(1000);
     chart.appear(1000, 100);
     return () => {
@@ -184,19 +193,19 @@ var setScrollbars = (chart, root) => {
 var setHeatRules = (series, circleTemplate, imageTemplate) => {
   series.set("heatRules", [{
     target: circleTemplate,
-    min: 8,
+    min: 10,
     max: 16,
     dataField: "value",
     key: "radius"
   }, {
     target: imageTemplate,
-    min: 16,
+    min: 20,
     max: 32,
     dataField: "value",
     key: "width"
   }, {
     target: imageTemplate,
-    min: 16,
+    min: 20,
     max: 32,
     dataField: "value",
     key: "height"

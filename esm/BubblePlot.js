@@ -79,7 +79,7 @@ export default function BubblePlot(props) {
 
   //console.log('Plugin props', props);
 
-  var [filterPost, setFilterPost] = useState((_props$filterState$fi = (_props$filterState = props.filterState) == null || (_props$filterState = _props$filterState.filters) == null ? void 0 : _props$filterState.id_page) != null ? _props$filterState$fi : []);
+  var [filterPost, setFilterPost] = useState((_props$filterState$fi = (_props$filterState = props.filterState) == null || (_props$filterState = _props$filterState.filters) == null ? void 0 : _props$filterState.ID_PAGE) != null ? _props$filterState$fi : []);
 
   //const [filterPost, setFilterPost] = useState([]);
 
@@ -87,19 +87,19 @@ export default function BubblePlot(props) {
     //console.log('DATA BUBBLEPLOT:', filterPost);
     var dataMask = {
       extraFormData: {
-        filters: filterPost.length > 0 ? ['id_page'].map((col, idx) => {
+        filters: filterPost.length > 0 ? ['ID_PAGE'].map((col, idx) => {
           return {
             col,
             op: 'IN',
-            val: filterPost.map(row => row.id_page)
+            val: filterPost.map(row => row.ID_PAGE)
           };
         }) : []
       },
       filterState: {
-        value: [filterPost.map(row => row.id_page)],
+        value: [filterPost.map(row => row.ID_PAGE)],
         selectedValues: ['any'],
         filters: {
-          'id_page': filterPost
+          'ID_PAGE': filterPost
         }
       }
     };

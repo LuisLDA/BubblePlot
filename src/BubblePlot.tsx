@@ -74,7 +74,7 @@ export default function BubblePlot(props: BubblePlotProps) {
 
   //console.log('Plugin props', props);
 
-  const [filterPost, setFilterPost] = useState(props.filterState?.filters?.id_page ?? []);
+  const [filterPost, setFilterPost] = useState(props.filterState?.filters?.ID_PAGE ?? []);
 
   //const [filterPost, setFilterPost] = useState([]);
 
@@ -84,19 +84,19 @@ export default function BubblePlot(props: BubblePlotProps) {
     const dataMask = {
       extraFormData: {
         filters:
-          filterPost.length > 0 ? ['id_page'].map((col, idx) => {
+          filterPost.length > 0 ? ['ID_PAGE'].map((col, idx) => {
             return {
               col,
               op: 'IN' as const,
-              val: filterPost.map((row: { id_page: any; }) => row.id_page) as (string | number | boolean)[],
+              val: filterPost.map((row: { ID_PAGE: any; }) => row.ID_PAGE) as (string | number | boolean)[],
             };
           }) : [],
       },
       filterState: {
-        value: [filterPost.map((row: { id_page: any; }) => row.id_page)],
+        value: [filterPost.map((row: { ID_PAGE: any; }) => row.ID_PAGE)],
         selectedValues: ['any'],
         filters: {
-          'id_page': filterPost
+          'ID_PAGE': filterPost
         }
       },
     };

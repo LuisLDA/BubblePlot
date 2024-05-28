@@ -37,7 +37,7 @@ export var BubbleChart = _ref => {
 
   /*if (resultsSelected && resultsSelected.length > 0) {
     console.log('Selected BubbleChart:', resultsSelected);
-    setFilterPost(resultsSelected.map(item => ({ id_page: item })));
+    setFilterPost(resultsSelected.map(item => ({ ID_PAGE: item })));
   }*/
 
   useEffect(() => {
