@@ -72,7 +72,7 @@ export default function BubblePlot(props: BubblePlotProps) {
   //   console.log('Plugin element', root);
   // });
 
-  //console.log('Plugin props', props);
+  console.log('Plugin props', props);
 
   const [filterPost, setFilterPost] = useState(props.filterState?.filters?.ID_PAGE ?? []);
 

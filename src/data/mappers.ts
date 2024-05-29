@@ -8,12 +8,12 @@ export const mapToBubbleData = (data: AnyObject[], filterAxisX: string, filterAx
       "ID_PAGE": item.ID_PAGE,
       "title": item.ID,
       "user": item.USERNAME,
-      "red": item.RED_NAME || icons[item.RED + 1].name,
+      "red": item.RED_NAME || icons[item.RED - 1].name,
       "x": item[filterAxisX],
       "y": item[filterAxisY],
       "value": item.followers || 0,
       bulletSettings: { src: getImageUser(item.ID_PAGE, item.USERNAME, item.RED) },
-      "icon": { src: icons[item.RED + 1].src }
+      "icon": { src: icons[item.RED - 1].src }
     }
   });
 }
