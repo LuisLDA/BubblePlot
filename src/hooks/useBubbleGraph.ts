@@ -23,7 +23,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             <span style="font-weight:bold;">Red Social:</span>
             <span style="font-weight:bold;">${filterAxisX}:</span>
             <span style="font-weight:bold;">${filterAxisY}:</span>
-            <span style="font-weight:bold;">Interacciones:</span>
+            <span style="font-weight:bold;">Seguidores:</span>
         </div>
         <div style="display:flex;flex-direction:column">
             <span style="float: right;">{user}</span>
