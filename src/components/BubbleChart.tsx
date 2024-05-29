@@ -38,7 +38,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
 
   useEffect(() => {
     setDataAxis(mapToBubbleData(data, filterAxisX, filterAxisY))
-  }, [filterAxisX, filterAxisY])
+  }, [filterAxisX, filterAxisY, data])
 
 
   const restHeight = height - 40;

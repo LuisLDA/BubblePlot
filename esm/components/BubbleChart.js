@@ -42,7 +42,7 @@ export var BubbleChart = _ref => {
 
   useEffect(() => {
     setDataAxis(mapToBubbleData(data, filterAxisX, filterAxisY));
-  }, [filterAxisX, filterAxisY]);
+  }, [filterAxisX, filterAxisY, data]);
   var restHeight = height - 40;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     style: {
