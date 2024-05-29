@@ -29,7 +29,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
   const [dataAxis, setDataAxis] = useState(mapToBubbleData(data, filterAxisX, filterAxisY));
 
 
-  useBubbleGraph({ id: "chartdiv", filterAxisX, filterAxisY, dataAxis, setFilterPost });
+  useBubbleGraph({ id: "customBubblediv", filterAxisX, filterAxisY, dataAxis, setFilterPost });
 
   /*if (resultsSelected && resultsSelected.length > 0) {
     console.log('Selected BubbleChart:', resultsSelected);
@@ -65,7 +65,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
         </Space>
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexGrow: 1 }}>
-          <div id="chartdiv" style={{ width: "100%", height: restHeight }} />
+          <div id="customBubblediv" style={{ width: "100%", height: restHeight }} />
           <Select
             defaultValue={filterAxisX}
             variant="borderless"

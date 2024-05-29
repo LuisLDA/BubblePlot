@@ -84,7 +84,7 @@ export default function BubblePlot(props) {
   //const [filterPost, setFilterPost] = useState([]);
 
   useEffect(() => {
-    //console.log('DATA BUBBLEPLOT:', filterPost);
+    console.log('DATA BUBBLEPLOT ORIGINAL:', filterPost);
     var dataMask = {
       extraFormData: {
         filters: filterPost.length > 0 ? ['ID_PAGE'].map((col, idx) => {

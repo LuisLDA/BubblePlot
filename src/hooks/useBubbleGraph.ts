@@ -57,7 +57,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
 
         let xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
             min: -100,
-            maxDeviation: 0.4,
+            maxDeviation: 0.9,
             renderer: am5xy.AxisRendererX.new(root, {}),
             //tooltip: am5.Tooltip.new(root, {}),
         }));
@@ -70,7 +70,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
 
         let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
             min: -100,
-            maxDeviation: 0.4,
+            maxDeviation: 0.9,
             renderer: am5xy.AxisRendererY.new(root, {
                 inversed: false,
             }),
@@ -132,6 +132,17 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             return fill
         });
 
+
+        // Agrega el icono de la red social
+        let socialIconTemplate = am5.Template.new<am5.Picture>({});
+        socialIconTemplate.setAll({
+            templateField: "icon",
+            centerX: am5.p0,
+            centerY: am5.p0,
+            width: 16, // Ajusta el tamaño según sea necesario
+            height: 16, // Ajusta el tamaño según sea necesario
+        });
+
         series.bullets.push(function () {
             let bulletContainer = am5.Container.new(root, {});
 
@@ -156,18 +167,49 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
                 am5.Picture.new(root, {}, imageTemplate)
             );
 
-          
-            // Agrega el icono de la red social
-            let socialIconTemplate = am5.Template.new<am5.Picture>({});
-            socialIconTemplate.setAll({
-                templateField: "icon",
-                centerX: am5.p50,
-                centerY: am5.p50,
-                width: 15, // Ajusta el tamaño según sea necesario
-                height: 15, // Ajusta el tamaño según sea necesario
+            return am5.Bullet.new(root, {
+                sprite: bulletContainer,
             });
+        });
 
-            let socialIcon = bulletContainer.children.push(
+
+        let circleIconTemplate: am5.Template<am5.Circle> = am5.Template.new({});
+        circleIconTemplate.adapters.add("fill", function (fill, target) {
+            let dataItem = target.dataItem;
+            if (dataItem) {
+                return am5.Color.fromString("#FFFFFF");
+            }
+            return fill
+        });
+
+        series.bullets.push(function () {
+            let bulletContainer = am5.Container.new(root, {});
+
+            let circle = bulletContainer.children.push(
+                am5.Circle.new(
+                    root,
+                    {
+                        radius: 8,
+                        fillOpacity: 0.7,
+                        fill: am5.color(0x000000),
+                        //Poner en la esquina inferior derecha
+                        //x: am5.p0,
+                        //y: am5.p0,
+                        centerX: am5.p0,
+                        centerY: am5.p0,
+
+                    },
+                    circleIconTemplate as am5.Template<am5.Circle>
+                )
+            );
+
+            let imageContainer = bulletContainer.children.push(
+                am5.Container.new(root, {
+                    mask: circle
+                })
+            );
+
+            let socialIcon = imageContainer.children.push(
                 am5.Picture.new(root, {}, socialIconTemplate)
             );
 
@@ -177,7 +219,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
         });
 
 
-        setHeatRules(series, circleTemplate, imageTemplate);
+        setHeatRules(series, circleTemplate, imageTemplate, circleIconTemplate, socialIconTemplate);
 
         series.data.setAll(
             dataAxis
@@ -189,20 +231,6 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             snapToSeries: [series],
             behavior: "selectXY",
         }));
-
-
-        cursor.events.on("selectstarted", function (ev) {
-            // if control key is pressed init selection else pan
-            // if (ev.originalEvent.ctrlKey) {
-            //     cursor.set("behavior", "selectXY");
-            // } else {
-            //     cursor.set("behavior", "panXY");
-            // }
-
-
-
-            console.log("Evento Target Select Start:", ev.target);
-        })
 
         cursor.events.on("selectended", function (ev) {
 
@@ -279,27 +307,73 @@ const setScrollbars = (chart: am5xy.XYChart, root: am5.Root) => {
     chart.set("scrollbarY", am5.Scrollbar.new(root, {
         orientation: "vertical"
     }));
+
+    let scrollbarX = chart.get("scrollbarX");
+
+    scrollbarX?.startGrip.setAll({
+        visible: false,
+    });
+
+    scrollbarX?.endGrip.setAll({
+        visible: false,
+    });
+
+    let scrollbarY = chart.get("scrollbarY");
+
+    scrollbarY?.startGrip.setAll({
+        visible: false,
+    });
+
+    scrollbarY?.endGrip.setAll({
+        visible: false,
+    });
+
 }
 
-const setHeatRules = (series: am5xy.LineSeries, circleTemplate: am5.Template<am5.Entity>, imageTemplate: am5.Template<am5.Picture>) => {
+const setHeatRules = (series: am5xy.LineSeries,
+    circleTemplate: am5.Template<am5.Entity>,
+    imageTemplate: am5.Template<am5.Picture>,
+    circleIconTemplate: am5.Template<am5.Circle>,
+    socialIconTemplate: am5.Template<am5.Picture>
+) => {
     series.set("heatRules", [
         {
             target: circleTemplate,
-            min: 10,
-            max: 16,
+            min: 12,
+            max: 18,
             dataField: "value",
             key: "radius"
         },
         {
             target: imageTemplate,
-            min: 20,
-            max: 32,
+            min: 24,
+            max: 36,
             dataField: "value",
             key: "width"
         }, {
             target: imageTemplate,
-            min: 20,
-            max: 32,
+            min: 24,
+            max: 36,
+            dataField: "value",
+            key: "height"
+        },
+        {
+            target: circleIconTemplate,
+            min: 8,
+            max: 10,
+            dataField: "value",
+            key: "radius"
+        },
+        {
+            target: socialIconTemplate,
+            min: 16,
+            max: 20,
+            dataField: "value",
+            key: "width"
+        }, {
+            target: socialIconTemplate,
+            min: 16,
+            max: 20,
             dataField: "value",
             key: "height"
         }

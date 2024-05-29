@@ -80,7 +80,7 @@ export default function BubblePlot(props: BubblePlotProps) {
 
 
   useEffect(() => {
-    //console.log('DATA BUBBLEPLOT:', filterPost);
+    console.log('DATA BUBBLEPLOT ORIGINAL:', filterPost);
     const dataMask = {
       extraFormData: {
         filters:

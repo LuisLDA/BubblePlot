@@ -28,7 +28,7 @@ export var BubbleChart = _ref => {
   });
   var [dataAxis, setDataAxis] = useState(mapToBubbleData(data, filterAxisX, filterAxisY));
   useBubbleGraph({
-    id: "chartdiv",
+    id: "customBubblediv",
     filterAxisX,
     filterAxisY,
     dataAxis,
@@ -71,7 +71,7 @@ export var BubbleChart = _ref => {
       flexGrow: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
-    id: "chartdiv",
+    id: "customBubblediv",
     style: {
       width: "100%",
       height: restHeight

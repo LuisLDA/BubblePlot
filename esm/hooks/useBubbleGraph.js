@@ -30,7 +30,7 @@ export var useBubbleGraph = _ref => {
     }));
     var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
       min: -100,
-      maxDeviation: 0.4,
+      maxDeviation: 0.9,
       renderer: am5xy.AxisRendererX.new(root, {})
       //tooltip: am5.Tooltip.new(root, {}),
     }));
@@ -43,7 +43,7 @@ export var useBubbleGraph = _ref => {
 
     var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
       min: -100,
-      maxDeviation: 0.4,
+      maxDeviation: 0.9,
       renderer: am5xy.AxisRendererY.new(root, {
         inversed: false
       })
@@ -96,6 +96,17 @@ export var useBubbleGraph = _ref => {
       }
       return fill;
     });
+
+    // Agrega el icono de la red social
+    var socialIconTemplate = am5.Template.new({});
+    socialIconTemplate.setAll({
+      templateField: "icon",
+      centerX: am5.p0,
+      centerY: am5.p0,
+      width: 16,
+      // Ajusta el tamaño según sea necesario
+      height: 16 // Ajusta el tamaño según sea necesario
+    });
     series.bullets.push(function () {
       var bulletContainer = am5.Container.new(root, {});
       var circle = bulletContainer.children.push(am5.Circle.new(root, {
@@ -106,23 +117,39 @@ export var useBubbleGraph = _ref => {
         mask: circle
       }));
       var image = imageContainer.children.push(am5.Picture.new(root, {}, imageTemplate));
-
-      // Agrega el icono de la red social
-      var socialIconTemplate = am5.Template.new({});
-      socialIconTemplate.setAll({
-        templateField: "icon",
-        centerX: am5.p50,
-        centerY: am5.p50,
-        width: 15,
-        // Ajusta el tamaño según sea necesario
-        height: 15 // Ajusta el tamaño según sea necesario
-      });
-      var socialIcon = bulletContainer.children.push(am5.Picture.new(root, {}, socialIconTemplate));
       return am5.Bullet.new(root, {
         sprite: bulletContainer
       });
     });
-    setHeatRules(series, circleTemplate, imageTemplate);
+    var circleIconTemplate = am5.Template.new({});
+    circleIconTemplate.adapters.add("fill", function (fill, target) {
+      var dataItem = target.dataItem;
+      if (dataItem) {
+        return am5.Color.fromString("#FFFFFF");
+      }
+      return fill;
+    });
+    series.bullets.push(function () {
+      var bulletContainer = am5.Container.new(root, {});
+      var circle = bulletContainer.children.push(am5.Circle.new(root, {
+        radius: 8,
+        fillOpacity: 0.7,
+        fill: am5.color(0x000000),
+        //Poner en la esquina inferior derecha
+        //x: am5.p0,
+        //y: am5.p0,
+        centerX: am5.p0,
+        centerY: am5.p0
+      }, circleIconTemplate));
+      var imageContainer = bulletContainer.children.push(am5.Container.new(root, {
+        mask: circle
+      }));
+      var socialIcon = imageContainer.children.push(am5.Picture.new(root, {}, socialIconTemplate));
+      return am5.Bullet.new(root, {
+        sprite: bulletContainer
+      });
+    });
+    setHeatRules(series, circleTemplate, imageTemplate, circleIconTemplate, socialIconTemplate);
     series.data.setAll(dataAxis);
     var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
       //xAxis: xAxis,
@@ -130,16 +157,6 @@ export var useBubbleGraph = _ref => {
       snapToSeries: [series],
       behavior: "selectXY"
     }));
-    cursor.events.on("selectstarted", function (ev) {
-      // if control key is pressed init selection else pan
-      // if (ev.originalEvent.ctrlKey) {
-      //     cursor.set("behavior", "selectXY");
-      // } else {
-      //     cursor.set("behavior", "panXY");
-      // }
-
-      console.log("Evento Target Select Start:", ev.target);
-    });
     cursor.events.on("selectended", function (ev) {
       // Get actors
       var cursor = ev.target;
@@ -202,24 +219,56 @@ var setScrollbars = (chart, root) => {
   chart.set("scrollbarY", am5.Scrollbar.new(root, {
     orientation: "vertical"
   }));
+  var scrollbarX = chart.get("scrollbarX");
+  scrollbarX == null || scrollbarX.startGrip.setAll({
+    visible: false
+  });
+  scrollbarX == null || scrollbarX.endGrip.setAll({
+    visible: false
+  });
+  var scrollbarY = chart.get("scrollbarY");
+  scrollbarY == null || scrollbarY.startGrip.setAll({
+    visible: false
+  });
+  scrollbarY == null || scrollbarY.endGrip.setAll({
+    visible: false
+  });
 };
-var setHeatRules = (series, circleTemplate, imageTemplate) => {
+var setHeatRules = (series, circleTemplate, imageTemplate, circleIconTemplate, socialIconTemplate) => {
   series.set("heatRules", [{
     target: circleTemplate,
-    min: 10,
-    max: 16,
+    min: 12,
+    max: 18,
     dataField: "value",
     key: "radius"
   }, {
     target: imageTemplate,
-    min: 20,
-    max: 32,
+    min: 24,
+    max: 36,
     dataField: "value",
     key: "width"
   }, {
     target: imageTemplate,
-    min: 20,
-    max: 32,
+    min: 24,
+    max: 36,
+    dataField: "value",
+    key: "height"
+  }, {
+    target: circleIconTemplate,
+    min: 8,
+    max: 10,
+    dataField: "value",
+    key: "radius"
+  }, {
+    target: socialIconTemplate,
+    min: 16,
+    max: 20,
+    dataField: "value",
+    key: "width"
+  }, {
+    target: socialIconTemplate,
+    min: 16,
+    max: 20,
     dataField: "value",
     key: "height"
   }]);

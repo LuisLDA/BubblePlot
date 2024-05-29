@@ -1,19 +1,20 @@
 import { getImageUser } from "../utils/getImageUser";
+import icons from "./icons";
 export var mapToBubbleData = (data, filterAxisX, filterAxisY) => {
   return data.map(item => {
     return {
       "ID_PAGE": item.ID_PAGE,
       "title": item.ID,
       "user": item.USERNAME,
-      "red": item.RED_NAME,
+      "red": item.RED_NAME || icons[item.RED + 1].name,
       "x": item[filterAxisX],
       "y": item[filterAxisY],
-      "value": item.interactions,
+      "value": item.followers || 0,
       bulletSettings: {
         src: getImageUser(item.ID_PAGE, item.USERNAME, item.RED)
       },
       "icon": {
-        src: "https://assets.codepen.io/t-160/icon_social_twitter.svg"
+        src: icons[item.RED + 1].src
       }
     };
   });

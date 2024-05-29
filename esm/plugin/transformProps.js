@@ -66,9 +66,9 @@ export default function transformProps(chartProps) {
     setDataMask = () => {},
     onContextMenu
   } = hooks;
-  console.log('formData via TransformProps.ts', formData);
-  console.log('filterState via TransformProps.ts', filterState);
-  console.log('setDataMask via TransformProps.ts', setDataMask);
+  console.log('BformData via TransformProps.ts', formData);
+  console.log('BfilterState via TransformProps.ts', filterState);
+  console.log('BsetDataMask via TransformProps.ts', setDataMask);
   return {
     width,
     height,
