@@ -110,7 +110,9 @@ export default function BubblePlot(props) {
     width: width,
     height: height,
     filterPosts: filterPost,
-    setFilterPost: setFilterPost
+    setFilterPost: data => {
+      console.log(data);
+    }
   })
 
   // <Styles

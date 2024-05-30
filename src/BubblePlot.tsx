@@ -107,7 +107,7 @@ export default function BubblePlot(props: BubblePlotProps) {
   return (
 
 
-    <BubbleChart data={data} width={width} height={height} filterPosts = {filterPost} setFilterPost={setFilterPost} />
+    <BubbleChart data={data} width={width} height={height} filterPosts={filterPost} setFilterPost={(data: any) => { console.log(data) }} />
 
     // <Styles
     //   ref={rootElem}
