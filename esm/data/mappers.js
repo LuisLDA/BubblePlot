@@ -9,7 +9,7 @@ export var mapToBubbleData = (data, filterAxisX, filterAxisY) => {
       "red": item.RED_NAME || icons[item.RED - 1].red,
       "x": item[filterAxisX],
       "y": item[filterAxisY],
-      "value": item.followers || 0,
+      "value": item.Seguidores || 0,
       bulletSettings: {
         src: getImageUser(item.ID_PAGE, item.USERNAME, item.RED)
       },
