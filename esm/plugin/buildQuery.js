@@ -1,4 +1,5 @@
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +19,6 @@ function _extends() { _extends = Object.assign ? Object.assign.bind() : function
  * under the License.
  */
 import { buildQueryContext } from '@superset-ui/core';
-
 /**
  * The buildQuery function is used to create an instance of QueryContext that's
  * sent to the chart data endpoint. In addition to containing information of which
@@ -33,6 +33,7 @@ import { buildQueryContext } from '@superset-ui/core';
  * it is possible to define post processing operations in the QueryObject, or multiple queries
  * if a viz needs multiple different result sets.
  */
+
 export default function buildQuery(formData) {
   //const { cols: groupby } = formData;
   var {
@@ -40,7 +41,7 @@ export default function buildQuery(formData) {
   } = formData;
   var yyy = buildQueryContext(formData, baseQueryObject => [_extends({}, baseQueryObject, {
     columns
-  })]);
-  //console.log('buildQueryContext', yyy);
+  })]); //console.log('buildQueryContext', yyy);
+
   return yyy;
 }

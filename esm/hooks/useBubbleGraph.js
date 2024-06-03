@@ -15,13 +15,14 @@ export var useBubbleGraph = _ref => {
   var tooltipHtml = "\n      <div style=\"display:flex;gap:8px;align-items:center;\">\n        <div style=\"display:flex;flex-direction:column\">\n            <img src=\"{bulletSettings.src}\" style=\"width: 50px; height: 50px; margin: 0 auto; display: block; border-radius: 25px\"/>      \n        </div>\n        <div style=\"display:flex;flex-direction:column\">\n            <span style=\"font-weight:bold;\">Usuario:</span>\n            <span style=\"font-weight:bold;\">Red Social:</span>\n            <span style=\"font-weight:bold;\">" + filterAxisX + ":</span>\n            <span style=\"font-weight:bold;\">" + filterAxisY + ":</span>\n            <span style=\"font-weight:bold;\">Seguidores:</span>\n        </div>\n        <div style=\"display:flex;flex-direction:column\">\n            <span style=\"float: right;\">{user}</span>\n            <span style=\"float: right;\">{red}</span>\n            <span style=\"float: right;\">{valueX}</span>\n            <span style=\"float: right;\">{valueY}</span>\n            <span style=\"float: right;\">{value}</span>\n        </div>\n     </div>";
   useLayoutEffect(() => {
     var _root$_logo, _tooltip$get;
+
     var root = am5.Root.new(id);
-    (_root$_logo = root._logo) == null || _root$_logo.dispose();
+    (_root$_logo = root._logo) == null ? void 0 : _root$_logo.dispose();
     root.setThemes([am5themes_Animated.new(root)]);
     root.locale = am5locales_de_DE;
     var chart = root.container.children.push(am5xy.XYChart.new(root, {
-      panX: true,
-      panY: true,
+      panX: false,
+      panY: false,
       wheelY: "zoomXY",
       pinchZoomX: true,
       pinchZoomY: true,
@@ -31,11 +32,9 @@ export var useBubbleGraph = _ref => {
     var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
       min: -100,
       maxDeviation: 0.9,
-      renderer: am5xy.AxisRendererX.new(root, {})
-      //tooltip: am5.Tooltip.new(root, {}),
-    }));
+      renderer: am5xy.AxisRendererX.new(root, {}) //tooltip: am5.Tooltip.new(root, {}),
 
-    // xAxis.children.moveValue(am5.Label.new(root, {
+    })); // xAxis.children.moveValue(am5.Label.new(root, {
     //   text: filterAxisX,
     //   x: am5.p50,
     //   centerX: am5.p50
@@ -46,11 +45,9 @@ export var useBubbleGraph = _ref => {
       maxDeviation: 0.9,
       renderer: am5xy.AxisRendererY.new(root, {
         inversed: false
-      })
-      //tooltip: am5.Tooltip.new(root, {})
-    }));
+      }) //tooltip: am5.Tooltip.new(root, {})
 
-    // yAxis.children.moveValue(am5.Label.new(root, {
+    })); // yAxis.children.moveValue(am5.Label.new(root, {
     //   rotation: -90,
     //   text: filterAxisY,
     //   y: am5.p50,
@@ -61,7 +58,7 @@ export var useBubbleGraph = _ref => {
       getFillFromSprite: false,
       labelHTML: tooltipHtml
     });
-    tooltip == null || (_tooltip$get = tooltip.get("background")) == null || _tooltip$get.setAll({
+    tooltip == null ? void 0 : (_tooltip$get = tooltip.get("background")) == null ? void 0 : _tooltip$get.setAll({
       fill: am5.color(0x222222),
       fillOpacity: 0.5
     });
@@ -77,9 +74,8 @@ export var useBubbleGraph = _ref => {
       tooltip: tooltip,
       snapTooltip: true
     }));
-    series.strokes.template.set("visible", false);
+    series.strokes.template.set("visible", false); // Add bullet
 
-    // Add bullet
     var imageTemplate = am5.Template.new({});
     imageTemplate.setAll({
       templateField: "bulletSettings",
@@ -91,13 +87,14 @@ export var useBubbleGraph = _ref => {
     var circleTemplate = am5.Template.new({});
     circleTemplate.adapters.add("fill", function (fill, target) {
       var dataItem = target.dataItem;
+
       if (dataItem) {
         return am5.Color.fromString(getRandomColor());
       }
-      return fill;
-    });
 
-    // Agrega el icono de la red social
+      return fill;
+    }); // Agrega el icono de la red social
+
     var socialIconTemplate = am5.Template.new({});
     socialIconTemplate.setAll({
       templateField: "icon",
@@ -106,6 +103,7 @@ export var useBubbleGraph = _ref => {
       width: 16,
       // Ajusta el tamaño según sea necesario
       height: 16 // Ajusta el tamaño según sea necesario
+
     });
     series.bullets.push(function () {
       var bulletContainer = am5.Container.new(root, {});
@@ -124,9 +122,11 @@ export var useBubbleGraph = _ref => {
     var circleIconTemplate = am5.Template.new({});
     circleIconTemplate.adapters.add("fill", function (fill, target) {
       var dataItem = target.dataItem;
+
       if (dataItem) {
         return am5.Color.fromString("#FFFFFF");
       }
+
       return fill;
     });
     series.bullets.push(function () {
@@ -154,44 +154,45 @@ export var useBubbleGraph = _ref => {
     var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
       //xAxis: xAxis,
       //yAxis: yAxis,
-      snapToSeries: [series]
-      //behavior: "selectXY",
+      snapToSeries: [series],
+      behavior: "selectXY"
     }));
+    cursor.events.on("selectended", function (ev) {
+      // Get actors
+      var cursor = ev.target; //console.log("Evento Target:", cursor);
 
-    //Selected area
-    /*cursor.events.on("selectended", function (ev) {
-         // Get actors
-        let cursor = ev.target;
-         //console.log("Evento Target:", cursor);
-         let x1 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("downPositionX")!));
-        let x2 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("positionX")!));
-        let y1 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("downPositionY")!));
-        let y2 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("positionY")!));
-         // Assemble bounds
-        let bounds = {
-            left: x1 > x2 ? x2 : x1,
-            right: x1 > x2 ? x1 : x2,
-            top: y1 < y2 ? y1 : y2,
-            bottom: y1 < y2 ? y2 : y1
-        };
-          // Filter data items within boundaries
-        let results: am5.DataItem<am5xy.ILineSeriesDataItem>[] = [];
-        am5.array.each(series.dataItems, function (dataItem) {
-            let x = dataItem.get("valueX");
-            let y = dataItem.get("valueY");
-            //let z = dataItem.get("valueZ");
-            if (am5.math.inBounds({ x: x!, y: y! }, bounds)) {
-                results.push(dataItem);
-            }
-        });
-          // Results
-        //console.log(results);
-        // @ts-ignore
-        setFilterPost(results.map((item) => { return { ID_PAGE: item.dataContext!!.ID_PAGE } }));
-     });*/
+      var x1 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("downPositionX")));
+      var x2 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("positionX")));
+      var y1 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("downPositionY")));
+      var y2 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("positionY"))); // Assemble bounds
 
-    //setScrollbars(chart, root);
+      var bounds = {
+        left: x1 > x2 ? x2 : x1,
+        right: x1 > x2 ? x1 : x2,
+        top: y1 < y2 ? y1 : y2,
+        bottom: y1 < y2 ? y2 : y1
+      }; // Filter data items within boundaries
 
+      var results = [];
+      am5.array.each(series.dataItems, function (dataItem) {
+        var x = dataItem.get("valueX");
+        var y = dataItem.get("valueY"); //let z = dataItem.get("valueZ");
+
+        if (am5.math.inBounds({
+          x: x,
+          y: y
+        }, bounds)) {
+          results.push(dataItem);
+        }
+      }); // Results
+      //console.log(results);
+      // @ts-ignore
+
+      setFilterPost("ID_PAGE", results.map(item => {
+        return item.dataContext.ID_PAGE;
+      }));
+    });
+    setScrollbars(chart, root);
     series.appear(1000);
     chart.appear(1000, 100);
     return () => {
@@ -204,6 +205,7 @@ export var useBubbleGraph = _ref => {
     filterAxisY
   };
 };
+
 var setScrollbars = (chart, root) => {
   chart.set("scrollbarX", am5.Scrollbar.new(root, {
     orientation: "horizontal"
@@ -212,20 +214,21 @@ var setScrollbars = (chart, root) => {
     orientation: "vertical"
   }));
   var scrollbarX = chart.get("scrollbarX");
-  scrollbarX == null || scrollbarX.startGrip.setAll({
+  scrollbarX == null ? void 0 : scrollbarX.startGrip.setAll({
     visible: false
   });
-  scrollbarX == null || scrollbarX.endGrip.setAll({
+  scrollbarX == null ? void 0 : scrollbarX.endGrip.setAll({
     visible: false
   });
   var scrollbarY = chart.get("scrollbarY");
-  scrollbarY == null || scrollbarY.startGrip.setAll({
+  scrollbarY == null ? void 0 : scrollbarY.startGrip.setAll({
     visible: false
   });
-  scrollbarY == null || scrollbarY.endGrip.setAll({
+  scrollbarY == null ? void 0 : scrollbarY.endGrip.setAll({
     visible: false
   });
 };
+
 var setHeatRules = (series, circleTemplate, imageTemplate, circleIconTemplate, socialIconTemplate) => {
   series.set("heatRules", [{
     target: circleTemplate,

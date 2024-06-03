@@ -1,4 +1,5 @@
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -93,10 +94,8 @@ var config = {
    * - validateInteger: must be an integer value
    * - validateNumber: must be an integer or decimal value
    */
-
   // For control input types, see: superset-frontend/src/explore/components/controls/index.js
-  controlPanelSections: [
-  //sections.legacyRegularTime,
+  controlPanelSections: [//sections.legacyRegularTime,
   {
     label: t('Query'),
     expanded: true,
@@ -145,8 +144,7 @@ var config = {
         type: 'SelectControl',
         label: t('Font Size'),
         default: 'xl',
-        choices: [
-        // [value, label]
+        choices: [// [value, label]
         ['xxs', 'xx-small'], ['xs', 'x-small'], ['s', 'small'], ['m', 'medium'], ['l', 'large'], ['xl', 'x-large'], ['xxl', 'xx-large']],
         renderTrigger: true,
         description: t('The size of your header font')

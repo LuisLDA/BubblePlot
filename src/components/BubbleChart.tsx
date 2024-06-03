@@ -93,7 +93,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
                 color='#2db7f5'
                 closable={true}
                 style={{ userSelect: 'none' }}
-                onClose={() => setFilterPost([])}
+                onClose={() => setFilterPost("ID_PAGE", [])}
               >
                 <FilterOutlined />
               </Tag>

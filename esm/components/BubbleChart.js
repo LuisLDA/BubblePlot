@@ -34,7 +34,6 @@ export var BubbleChart = _ref => {
     dataAxis,
     setFilterPost
   });
-
   /*if (resultsSelected && resultsSelected.length > 0) {
     console.log('Selected BubbleChart:', resultsSelected);
     setFilterPost(resultsSelected.map(item => ({ ID_PAGE: item })));
@@ -96,6 +95,6 @@ export var BubbleChart = _ref => {
     style: {
       userSelect: 'none'
     },
-    onClose: () => setFilterPost([])
+    onClose: () => setFilterPost("ID_PAGE", [])
   }, /*#__PURE__*/React.createElement(FilterOutlined, null)))));
 };

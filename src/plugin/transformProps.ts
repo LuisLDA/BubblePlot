@@ -49,22 +49,41 @@ export default function transformProps(chartProps: ChartProps) {
    * function during development with hot reloading, changes won't
    * be seen until restarting the development server.
    */
-  const { width, height, formData, queriesData, hooks, filterState, emitCrossFilters } = chartProps;
+  //const { width, height, formData, queriesData, hooks, filterState, emitCrossFilters } = chartProps;
+
+
+  const {
+    height,
+    width,
+    rawFormData: formData,
+    queriesData = [],
+    filterState,
+    ownState: serverPaginationData,
+    hooks: {
+      onAddFilter: onChangeFilter,
+      setDataMask = () => { },
+      onContextMenu,
+    },
+    emitCrossFilters,
+  } = chartProps;
+
+
+
   const { boldText, headerFontSize, headerText } = formData;
   const data = queriesData[0].data as TimeseriesDataRecord[];
 
 
-  const { setDataMask = () => { }, onContextMenu } = hooks;
+  //const { setDataMask = () => { }, onContextMenu } = hooks;
 
-  console.log('BformData via TransformProps.ts', formData);
-  console.log('BfilterState via TransformProps.ts', filterState);
-  console.log('BsetDataMask via TransformProps.ts', setDataMask);
+  console.log('Bubble formData via TransformProps.ts', formData);
+  //console.log('BfilterState via TransformProps.ts', filterState);
+  //console.log('BsetDataMask via TransformProps.ts', setDataMask);
 
   return {
     width,
     height,
     data,
-    // and now your control data, manipulated as needed, and passed through as props!
+    // and now your control data, manipulated as ne♣eded, and passed through as props!
     boldText,
     headerFontSize,
     headerText,
@@ -73,5 +92,7 @@ export default function transformProps(chartProps: ChartProps) {
     onContextMenu,
     filterState,
     emitCrossFilters,
+    filters: filterState.filters,
+    onChangeFilter,
   };
 }

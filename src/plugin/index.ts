@@ -16,14 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t, ChartMetadata, ChartPlugin,Behavior } from '@superset-ui/core';
+import { t, ChartMetadata, ChartPlugin, Behavior } from '@superset-ui/core';
 import buildQuery from './buildQuery';
 import controlPanel from './controlPanel';
 import transformProps from './transformProps';
 import thumbnail from '../images/thumbnail.png';
-import {BubblePlotProps, BubblePlotQueryFormData} from "../types";
+import { BubblePlotProps, BubblePlotQueryFormData } from "../types";
 
-export default class BubblePlot extends ChartPlugin {
+export default class BubblePlot extends ChartPlugin<
+  BubblePlotProps,
+  BubblePlotQueryFormData
+> {
   /**
    * The constructor is used to pass relevant metadata and callbacks that get
    * registered in respective registries that are used throughout the library
@@ -39,15 +42,18 @@ export default class BubblePlot extends ChartPlugin {
       description: 'Bubble Plot',
       name: t('Bubble Plot'),
       thumbnail,
-      behaviors: [Behavior.INTERACTIVE_CHART],
+      behaviors: [
+        //Behavior.InteractiveChart,
+        Behavior.NativeFilter
+      ],
     });
 
     super({
-      buildQuery,
-      controlPanel,
       loadChart: () => import('../BubblePlot'),
       metadata,
       transformProps,
+      controlPanel,
+      buildQuery,
     });
   }
 }

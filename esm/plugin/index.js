@@ -37,14 +37,16 @@ export default class BubblePlot extends ChartPlugin {
       description: 'Bubble Plot',
       name: t('Bubble Plot'),
       thumbnail,
-      behaviors: [Behavior.INTERACTIVE_CHART]
+      behaviors: [//Behavior.InteractiveChart,
+      Behavior.NativeFilter]
     });
     super({
-      buildQuery,
-      controlPanel,
       loadChart: () => import('../BubblePlot'),
       metadata,
-      transformProps
+      transformProps,
+      controlPanel,
+      buildQuery
     });
   }
+
 }

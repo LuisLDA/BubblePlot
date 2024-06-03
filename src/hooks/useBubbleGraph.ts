@@ -46,8 +46,8 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
         root.locale = am5locales_de_DE;
 
         let chart = root.container.children.push(am5xy.XYChart.new(root, {
-            panX: true,
-            panY: true,
+            panX: false,
+            panY: false,
             wheelY: "zoomXY",
             pinchZoomX: true,
             pinchZoomY: true,
@@ -229,12 +229,10 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             //xAxis: xAxis,
             //yAxis: yAxis,
             snapToSeries: [series],
-            //behavior: "selectXY",
+            behavior: "selectXY",
         }));
 
-
-        //Selected area
-        /*cursor.events.on("selectended", function (ev) {
+        cursor.events.on("selectended", function (ev) {
 
             // Get actors
             let cursor = ev.target;
@@ -270,14 +268,14 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             // Results
             //console.log(results);
             // @ts-ignore
-            setFilterPost(results.map((item) => { return { ID_PAGE: item.dataContext!!.ID_PAGE } }));
+            setFilterPost("ID_PAGE", results.map((item) => { return item.dataContext!!.ID_PAGE }));
 
-        });*/
-
-
+        });
 
 
-        //setScrollbars(chart, root);
+
+
+        setScrollbars(chart, root);
 
         series.appear(1000);
         chart.appear(1000, 100);

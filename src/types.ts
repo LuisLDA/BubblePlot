@@ -34,8 +34,13 @@ export type BubblePlotQueryFormData = QueryFormData &
   BubblePlotStylesProps &
   BubblePlotCustomizeProps;
 
+
+export type DataRecordValue = number | string | boolean | Date | null;
+
 export interface BubblePlotProps extends ChartProps<BubblePlotQueryFormData> {
   data: TimeseriesDataRecord[];
+  startDate: string,
+  endDate: string,
   // add typing here for the props you pass in from transformProps.ts!
   setDataMask: SetDataMaskHook,
   filterState: FilterState,
@@ -44,4 +49,5 @@ export interface BubblePlotProps extends ChartProps<BubblePlotQueryFormData> {
   boldText: boolean;
   headerText: string;
   filters?: DataRecordFilters;
+  onChangeFilter?: ChartProps['hooks']['onAddFilter'];
 };
