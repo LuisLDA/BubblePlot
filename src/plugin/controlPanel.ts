@@ -16,8 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t, validateNonEmpty } from '@superset-ui/core';
-import { ControlPanelConfig, sections, sharedControls } from '@superset-ui/chart-controls';
+import { t, validateNonEmpty, QueryMode } from '@superset-ui/core';
+import { ControlPanelConfig, sections, ControlConfig, sharedControls, QueryModeLabel } from '@superset-ui/chart-controls';
+
+
+const queryMode: ControlConfig<'RadioButtonControl'> = {
+  type: 'RadioButtonControl',
+  label: t('Query mode'),
+  default: QueryMode.Raw,
+  value: QueryMode.Raw,
+  options: [
+    [QueryMode.Raw, QueryModeLabel[QueryMode.Raw]],
+  ],
+  //mapStateToProps: ({ controls }) => ({ value: QueryMode.Raw }),
+};
+
 
 const config: ControlPanelConfig = {
   /**
@@ -94,34 +107,54 @@ const config: ControlPanelConfig = {
    * - validateNumber: must be an integer or decimal value
    */
 
+
+
+
   // For control input types, see: superset-frontend/src/explore/components/controls/index.js
   controlPanelSections: [
     //sections.legacyRegularTime,
     {
-      label: t('Query'),
+      label: t('Columns'),
       expanded: true,
       controlSetRows: [
         [
           {
-            name: 'cols',
-            config: {
-              ...sharedControls.groupby,
-              label: t('Columns'),
-              description: t('Columns to group by'),
-            },
+            name: 'query_mode',
+            config: queryMode,
           },
         ],
         [
           {
-            name: 'metrics',
+            name: 'all_columns',
             config: {
-              ...sharedControls.metrics,
-              // it's possible to add validators to controls if
-              // certain selections/types need to be enforced
-              validators: [validateNonEmpty],
+              ...sharedControls.groupby,
+              label: t('Columns'),
+              description: t('Columns to display'),
+              valueKey: 'column_name',
+              multi: true,
+              freeForm: true,
+              allowAll: true,
+              commaChoosesOption: false,
+              //raw
+              mapStateToProps: ({ datasource, controls }, controlState) => ({
+                options: datasource?.columns || [],
+                queryMode: QueryMode.Raw,
+              }),
+
             },
           },
         ],
+        // [
+        //   {
+        //     name: 'metrics',
+        //     config: {
+        //       ...sharedControls.metrics,
+        //       // it's possible to add validators to controls if
+        //       // certain selections/types need to be enforced
+        //       //validators: [validateNonEmpty],
+        //     },
+        //   },
+        // ],
         ['adhoc_filters'],
         [
           {

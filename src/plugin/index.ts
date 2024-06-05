@@ -24,8 +24,8 @@ import thumbnail from '../images/thumbnail.png';
 import { BubblePlotProps, BubblePlotQueryFormData } from "../types";
 
 export default class BubblePlot extends ChartPlugin<
-  BubblePlotProps,
-  BubblePlotQueryFormData
+  BubblePlotQueryFormData,
+  BubblePlotProps
 > {
   /**
    * The constructor is used to pass relevant metadata and callbacks that get
@@ -43,8 +43,9 @@ export default class BubblePlot extends ChartPlugin<
       name: t('Bubble Plot'),
       thumbnail,
       behaviors: [
-        //Behavior.InteractiveChart,
-        Behavior.NativeFilter
+        Behavior.InteractiveChart,
+        //Behavior.DrillToDetail,
+        //Behavior.DrillBy,
       ],
     });
 

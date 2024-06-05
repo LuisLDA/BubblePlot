@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { buildQueryContext, QueryFormData } from '@superset-ui/core';
+import { buildQueryContext, QueryFormData, QueryMode } from '@superset-ui/core';
 
 /**
  * The buildQuery function is used to create an instance of QueryContext that's
@@ -33,14 +33,22 @@ import { buildQueryContext, QueryFormData } from '@superset-ui/core';
  * if a viz needs multiple different result sets.
  */
 export default function buildQuery(formData: QueryFormData) {
-  //const { cols: groupby } = formData;
-  const {cols: columns} = formData;
-    const yyy = buildQueryContext(formData, (baseQueryObject: any) => [
+    //const { cols: groupby } = formData;
+    const { all_columns: columns, query_mode: queryMode } = formData;
+
+    let formDataCopy = formData;
+    // never include time in raw records mode
+    if (queryMode === QueryMode.Raw) {
+        formDataCopy = {
+            ...formData,
+            include_time: false,
+        };
+    }
+
+    return buildQueryContext(formDataCopy, (baseQueryObject: any) => [
         {
             ...baseQueryObject,
             columns,
         },
     ]);
-    //console.log('buildQueryContext', yyy);
-    return yyy;
 }

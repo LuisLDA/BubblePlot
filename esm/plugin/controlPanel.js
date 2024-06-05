@@ -18,8 +18,16 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t, validateNonEmpty } from '@superset-ui/core';
-import { sharedControls } from '@superset-ui/chart-controls';
+import { t, QueryMode } from '@superset-ui/core';
+import { sharedControls, QueryModeLabel } from '@superset-ui/chart-controls';
+var queryMode = {
+  type: 'RadioButtonControl',
+  label: t('Query mode'),
+  default: QueryMode.Raw,
+  value: QueryMode.Raw,
+  options: [[QueryMode.Raw, QueryModeLabel[QueryMode.Raw]]] //mapStateToProps: ({ controls }) => ({ value: QueryMode.Raw }),
+
+};
 var config = {
   /**
    * The control panel is split into two tabs: "Query" and
@@ -97,22 +105,45 @@ var config = {
   // For control input types, see: superset-frontend/src/explore/components/controls/index.js
   controlPanelSections: [//sections.legacyRegularTime,
   {
-    label: t('Query'),
+    label: t('Columns'),
     expanded: true,
     controlSetRows: [[{
-      name: 'cols',
+      name: 'query_mode',
+      config: queryMode
+    }], [{
+      name: 'all_columns',
       config: _extends({}, sharedControls.groupby, {
         label: t('Columns'),
-        description: t('Columns to group by')
+        description: t('Columns to display'),
+        valueKey: 'column_name',
+        multi: true,
+        freeForm: true,
+        allowAll: true,
+        commaChoosesOption: false,
+        //raw
+        mapStateToProps: (_ref, controlState) => {
+          var {
+            datasource,
+            controls
+          } = _ref;
+          return {
+            options: (datasource == null ? void 0 : datasource.columns) || [],
+            queryMode: QueryMode.Raw
+          };
+        }
       })
-    }], [{
-      name: 'metrics',
-      config: _extends({}, sharedControls.metrics, {
-        // it's possible to add validators to controls if
-        // certain selections/types need to be enforced
-        validators: [validateNonEmpty]
-      })
-    }], ['adhoc_filters'], [{
+    }], // [
+    //   {
+    //     name: 'metrics',
+    //     config: {
+    //       ...sharedControls.metrics,
+    //       // it's possible to add validators to controls if
+    //       // certain selections/types need to be enforced
+    //       //validators: [validateNonEmpty],
+    //     },
+    //   },
+    // ],
+    ['adhoc_filters'], [{
       name: 'row_limit',
       config: sharedControls.row_limit
     }]]

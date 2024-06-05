@@ -16,8 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ChartProps, FilterState, QueryFormData, supersetTheme, TimeseriesDataRecord, DataRecordFilters } from '@superset-ui/core';
-import { SetDataMaskHook } from "@superset-ui/core/lib/chart/types/Base";
+import {
+  ChartProps,
+  FilterState,
+  QueryFormData,
+  supersetTheme,
+  TimeseriesDataRecord,
+  DataRecordFilters,
+  QueryMode,
+  DataRecord,
+  SetDataMaskHook
+} from '@superset-ui/core';
+
+//import { SetDataMaskHook } from "@superset-ui/core/lib/chart/types/Base";
 
 export interface BubblePlotStylesProps {
   height: number;
@@ -26,13 +37,36 @@ export interface BubblePlotStylesProps {
   boldText: boolean;
 }
 
+export interface TableChartData {
+  records: DataRecord[];
+  columns: string[];
+}
+
 interface BubblePlotCustomizeProps {
   headerText: string;
 }
 
+
+export type TabColumnConfig = {
+  d3NumberFormat?: string;
+  d3SmallNumberFormat?: string;
+  d3TimeFormat?: string;
+  columnWidth?: number;
+  horizontalAlign?: 'left' | 'right' | 'center';
+  showCellBars?: boolean;
+  alignPositiveNegative?: boolean;
+  colorPositiveNegative?: boolean;
+  truncateLongCells?: boolean;
+};
+
+
 export type BubblePlotQueryFormData = QueryFormData &
   BubblePlotStylesProps &
-  BubblePlotCustomizeProps;
+  BubblePlotCustomizeProps & {
+    //Raw config
+    queryMode: QueryMode;
+    column_config?: Record<string, TabColumnConfig>;
+  };
 
 
 export type DataRecordValue = number | string | boolean | Date | null;
@@ -50,4 +84,5 @@ export interface BubblePlotProps extends ChartProps<BubblePlotQueryFormData> {
   headerText: string;
   filters?: DataRecordFilters;
   onChangeFilter?: ChartProps['hooks']['onAddFilter'];
+  rawFormData: BubblePlotQueryFormData;
 };

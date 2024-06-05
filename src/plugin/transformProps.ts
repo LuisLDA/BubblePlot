@@ -19,7 +19,7 @@
 import { ChartProps, TimeseriesDataRecord } from '@superset-ui/core';
 import { BubblePlotProps } from '../types';
 
-export default function transformProps(chartProps: ChartProps) {
+export default function transformProps(chartProps: BubblePlotProps) {
   /**
    * This function is called after a successful response has been
    * received from the chart data endpoint, and is used to transform

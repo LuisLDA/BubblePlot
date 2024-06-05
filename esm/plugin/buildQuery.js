@@ -18,7 +18,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
  * specific language governing permissions and limitations
  * under the License.
  */
-import { buildQueryContext } from '@superset-ui/core';
+import { buildQueryContext, QueryMode } from '@superset-ui/core';
 /**
  * The buildQuery function is used to create an instance of QueryContext that's
  * sent to the chart data endpoint. In addition to containing information of which
@@ -37,11 +37,18 @@ import { buildQueryContext } from '@superset-ui/core';
 export default function buildQuery(formData) {
   //const { cols: groupby } = formData;
   var {
-    cols: columns
+    all_columns: columns,
+    query_mode: queryMode
   } = formData;
-  var yyy = buildQueryContext(formData, baseQueryObject => [_extends({}, baseQueryObject, {
-    columns
-  })]); //console.log('buildQueryContext', yyy);
+  var formDataCopy = formData; // never include time in raw records mode
 
-  return yyy;
+  if (queryMode === QueryMode.Raw) {
+    formDataCopy = _extends({}, formData, {
+      include_time: false
+    });
+  }
+
+  return buildQueryContext(formDataCopy, baseQueryObject => [_extends({}, baseQueryObject, {
+    columns
+  })]);
 }

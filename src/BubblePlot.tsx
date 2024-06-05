@@ -205,7 +205,7 @@ export default function BubblePlot(props: BubblePlotProps) {
 
 
 
-    <BubbleChart data={data} width={width} height={height} filterPosts={filterPost} setFilterPost={toggleFilter} />
+    // <BubbleChart data={data} width={width} height={height} filterPosts={filterPost} setFilterPost={toggleFilter} />
 
     // <Styles
     //   ref={rootElem}
@@ -217,18 +217,18 @@ export default function BubblePlot(props: BubblePlotProps) {
 
     // </Styles>
 
-    // <Styles
-    //   ref={rootElem}
-    //   boldText={props.boldText}
-    //   headerFontSize={props.headerFontSize}
-    //   height={height}
-    //   width={width}
-    // >
+    <Styles
+      ref={rootElem}
+      boldText={props.boldText}
+      headerFontSize={props.headerFontSize}
+      height={height}
+      width={width}
+    >
 
-    //   <button onClick={() => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])}>Set Filter</button>
-    //   <pre>
-    //     {JSON.stringify(data, null, 2)}
-    //   </pre>
-    // </Styles>
+      <button onClick={() => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])}>Set Filter</button>
+      <pre>
+        {JSON.stringify(data, null, 2)}
+      </pre>
+    </Styles>
   );
 }

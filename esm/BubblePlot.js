@@ -24,7 +24,6 @@ function _taggedTemplateLiteralLoose(strings, raw) { if (!raw) { raw = strings.s
  */
 import React, { createRef, useCallback, useState } from 'react'; //import { styled } from '@superset-ui/core';
 
-import { BubbleChart } from './components/BubbleChart';
 import { ensureIsArray, styled } from '@superset-ui/core'; // The following Styles component is a <div> element, which has been styled using Emotion
 // For docs, visit https://emotion.sh/docs/styled
 // Theming variables are provided for your use via a ThemeProvider
@@ -215,31 +214,25 @@ export default function BubblePlot(props) {
     props.setDataMask(dataMask);
   }, [filterPost])*/
 
-  return /*#__PURE__*/React.createElement(BubbleChart, {
-    data: data,
-    width: width,
-    height: height,
-    filterPosts: filterPost,
-    setFilterPost: toggleFilter
-  }) // <Styles
-  //   ref={rootElem}
-  //   boldText={props.boldText}
-  //   headerFontSize={props.headerFontSize}
-  //   height={height}
-  //   width={width}
-  // >
-  // </Styles>
-  // <Styles
-  //   ref={rootElem}
-  //   boldText={props.boldText}
-  //   headerFontSize={props.headerFontSize}
-  //   height={height}
-  //   width={width}
-  // >
-  //   <button onClick={() => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])}>Set Filter</button>
-  //   <pre>
-  //     {JSON.stringify(data, null, 2)}
-  //   </pre>
-  // </Styles>
-  ;
+  return (
+    /*#__PURE__*/
+    // <BubbleChart data={data} width={width} height={height} filterPosts={filterPost} setFilterPost={toggleFilter} />
+    // <Styles
+    //   ref={rootElem}
+    //   boldText={props.boldText}
+    //   headerFontSize={props.headerFontSize}
+    //   height={height}
+    //   width={width}
+    // >
+    // </Styles>
+    React.createElement(Styles, {
+      ref: rootElem,
+      boldText: props.boldText,
+      headerFontSize: props.headerFontSize,
+      height: height,
+      width: width
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: () => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])
+    }, "Set Filter"), /*#__PURE__*/React.createElement("pre", null, JSON.stringify(data, null, 2)))
+  );
 }
