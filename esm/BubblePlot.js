@@ -24,6 +24,7 @@ function _taggedTemplateLiteralLoose(strings, raw) { if (!raw) { raw = strings.s
  */
 import React, { createRef, useCallback, useState } from 'react'; //import { styled } from '@superset-ui/core';
 
+import { BubbleChart } from './components/BubbleChart';
 import { ensureIsArray, styled } from '@superset-ui/core'; // The following Styles component is a <div> element, which has been styled using Emotion
 // For docs, visit https://emotion.sh/docs/styled
 // Theming variables are provided for your use via a ThemeProvider
@@ -99,8 +100,22 @@ export default function BubblePlot(props) {
     width,
     filters,
     setDataMask,
-    emitCrossFilters
+    emitCrossFilters,
+    all_columns
   } = props;
+  var data2 = data.map(value => {
+    var prop = {};
+    all_columns.forEach(column => {
+      if (typeof column === 'string') {
+        prop[column] = value[column];
+      } else if (typeof column === 'object') {
+        // Usa 'label' o 'sqlExpression' según tus necesidades
+        prop[column.label] = value[column.sqlExpression];
+      }
+    });
+    return prop;
+  }); //console.log('DATA BUBBLEPLOT22 :', data2);
+
   var rootElem = /*#__PURE__*/createRef(); // Often, you just want to access the DOM and do whatever you want.
   // Here, you can do that with createRef, and the useEffect hook.
   // useEffect(() => {
@@ -214,25 +229,31 @@ export default function BubblePlot(props) {
     props.setDataMask(dataMask);
   }, [filterPost])*/
 
-  return (
-    /*#__PURE__*/
-    // <BubbleChart data={data} width={width} height={height} filterPosts={filterPost} setFilterPost={toggleFilter} />
-    // <Styles
-    //   ref={rootElem}
-    //   boldText={props.boldText}
-    //   headerFontSize={props.headerFontSize}
-    //   height={height}
-    //   width={width}
-    // >
-    // </Styles>
-    React.createElement(Styles, {
-      ref: rootElem,
-      boldText: props.boldText,
-      headerFontSize: props.headerFontSize,
-      height: height,
-      width: width
-    }, /*#__PURE__*/React.createElement("button", {
-      onClick: () => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])
-    }, "Set Filter"), /*#__PURE__*/React.createElement("pre", null, JSON.stringify(data, null, 2)))
-  );
+  return /*#__PURE__*/React.createElement(BubbleChart, {
+    data: data2,
+    width: width,
+    height: height,
+    filterPosts: filterPost,
+    setFilterPost: toggleFilter
+  }) // <Styles
+  //   ref={rootElem}
+  //   boldText={props.boldText}
+  //   headerFontSize={props.headerFontSize}
+  //   height={height}
+  //   width={width}
+  // >
+  // </Styles>
+  // <Styles
+  //   ref={rootElem}
+  //   boldText={props.boldText}
+  //   headerFontSize={props.headerFontSize}
+  //   height={height}
+  //   width={width}
+  // >
+  //   <button onClick={() => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])}>Set Filter</button>
+  //   <pre>
+  //     {JSON.stringify(data, null, 2)}
+  //   </pre>
+  // </Styles>
+  ;
 }

@@ -46,8 +46,11 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
         root.locale = am5locales_de_DE;
 
         let chart = root.container.children.push(am5xy.XYChart.new(root, {
-            panX: false,
-            panY: false,
+            //Filter
+            //panX: false,
+            //panY: false,
+            panX: true,
+            panY: true,
             wheelY: "zoomXY",
             pinchZoomX: true,
             pinchZoomY: true,
@@ -229,10 +232,10 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             //xAxis: xAxis,
             //yAxis: yAxis,
             snapToSeries: [series],
-            behavior: "selectXY",
+            //behavior: "selectXY",
         }));
 
-        cursor.events.on("selectended", function (ev) {
+       /* cursor.events.on("selectended", function (ev) {
 
             // Get actors
             let cursor = ev.target;
@@ -268,9 +271,11 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             // Results
             //console.log(results);
             // @ts-ignore
+
+            //FILTER
             setFilterPost("ID_PAGE", results.map((item) => { return item.dataContext!!.ID_PAGE }));
 
-        });
+        });*/
 
 
 

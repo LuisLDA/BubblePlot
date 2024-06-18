@@ -64,7 +64,8 @@ export default function transformProps(chartProps) {
   var {
     boldText,
     headerFontSize,
-    headerText
+    headerText,
+    all_columns
   } = formData;
   var data = queriesData[0].data; //const { setDataMask = () => { }, onContextMenu } = hooks;
 
@@ -85,6 +86,7 @@ export default function transformProps(chartProps) {
     filterState,
     emitCrossFilters,
     filters: filterState.filters,
-    onChangeFilter
+    onChangeFilter,
+    all_columns
   };
 }

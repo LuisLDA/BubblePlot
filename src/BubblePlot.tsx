@@ -66,7 +66,29 @@ const Styles = styled.div<BubblePlotStylesProps>`
 export default function BubblePlot(props: BubblePlotProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
-  const { data, height, width, filters, setDataMask, emitCrossFilters } = props;
+  const { data, height, width, filters, setDataMask, emitCrossFilters, all_columns } = props;
+
+
+
+
+  const data2 = data.map((value: any) => {
+    const prop: any = {};
+
+    all_columns.forEach((column: any) => {
+      if (typeof column === 'string') {
+        prop[column] = value[column];
+      } else if (typeof column === 'object') {
+        // Usa 'label' o 'sqlExpression' según tus necesidades
+        prop[column.label] = value[column.sqlExpression];
+      }
+    });
+
+    return prop;
+  });
+
+
+  //console.log('DATA BUBBLEPLOT22 :', data2);
+
 
   const rootElem = createRef<HTMLDivElement>();
 
@@ -205,7 +227,7 @@ export default function BubblePlot(props: BubblePlotProps) {
 
 
 
-    // <BubbleChart data={data} width={width} height={height} filterPosts={filterPost} setFilterPost={toggleFilter} />
+    <BubbleChart data={data2} width={width} height={height} filterPosts={filterPost} setFilterPost={toggleFilter} />
 
     // <Styles
     //   ref={rootElem}
@@ -217,18 +239,18 @@ export default function BubblePlot(props: BubblePlotProps) {
 
     // </Styles>
 
-    <Styles
-      ref={rootElem}
-      boldText={props.boldText}
-      headerFontSize={props.headerFontSize}
-      height={height}
-      width={width}
-    >
+    // <Styles
+    //   ref={rootElem}
+    //   boldText={props.boldText}
+    //   headerFontSize={props.headerFontSize}
+    //   height={height}
+    //   width={width}
+    // >
 
-      <button onClick={() => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])}>Set Filter</button>
-      <pre>
-        {JSON.stringify(data, null, 2)}
-      </pre>
-    </Styles>
+    //   <button onClick={() => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])}>Set Filter</button>
+    //   <pre>
+    //     {JSON.stringify(data, null, 2)}
+    //   </pre>
+    // </Styles>
   );
 }
