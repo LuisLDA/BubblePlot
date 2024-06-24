@@ -75,6 +75,9 @@ export interface BubblePlotProps extends ChartProps<BubblePlotQueryFormData> {
   data: TimeseriesDataRecord[];
   startDate: string,
   endDate: string,
+  height: number,
+  width: number,
+  all_columns: any,
   // add typing here for the props you pass in from transformProps.ts!
   setDataMask: SetDataMaskHook,
   filterState: FilterState,
