@@ -17,6 +17,7 @@ export var BubbleChart = _ref => {
     value: key,
     label: key
   }));
+  console.log('optionsDropdown:', optionsDropdown);
   var {
     filterAxisX,
     filterAxisY,
