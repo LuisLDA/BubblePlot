@@ -69,7 +69,7 @@ export default function transformProps(chartProps: BubblePlotProps) {
 
 
 
-  const { boldText, headerFontSize, headerText, all_columns } = formData;
+  const { boldText, headerFontSize, headerText, all_columns, active_selection } = formData;
   const data = queriesData[0].data as TimeseriesDataRecord[];
 
 
@@ -94,6 +94,7 @@ export default function transformProps(chartProps: BubblePlotProps) {
     emitCrossFilters,
     filters: filterState.filters,
     onChangeFilter,
-    all_columns
+    all_columns,
+    active_selection
   };
 }

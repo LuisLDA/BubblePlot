@@ -88,4 +88,5 @@ export interface BubblePlotProps extends ChartProps<BubblePlotQueryFormData> {
   filters?: DataRecordFilters;
   onChangeFilter?: ChartProps['hooks']['onAddFilter'];
   rawFormData: BubblePlotQueryFormData;
+  active_selection: any;
 };

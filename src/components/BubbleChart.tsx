@@ -7,10 +7,10 @@ import { Tag } from "antd";
 import { FilterOutlined } from '@ant-design/icons';
 
 
-export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }: { data: any[]; width: number; height: number; filterPosts: any; setFilterPost: any }) => {
+export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost, isFiltereable }: { data: any[]; width: number; height: number; filterPosts: any; setFilterPost: any, isFiltereable: boolean }) => {
 
 
-
+  console.log('BubbleChart Data:', data);
 
 
   const optionsDropdown = Object.keys(data[0])
@@ -31,7 +31,7 @@ export const BubbleChart = ({ data, width, height, filterPosts, setFilterPost }:
   const [dataAxis, setDataAxis] = useState(mapToBubbleData(data, filterAxisX, filterAxisY));
 
 
-  useBubbleGraph({ id: "customBubblediv", filterAxisX, filterAxisY, dataAxis, setFilterPost });
+  useBubbleGraph({ id: "customBubblediv", filterAxisX, filterAxisY, dataAxis, setFilterPost, isFiltereable });
 
   /*if (resultsSelected && resultsSelected.length > 0) {
     console.log('Selected BubbleChart:', resultsSelected);

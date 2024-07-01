@@ -22,7 +22,7 @@ function _taggedTemplateLiteralLoose(strings, raw) { if (!raw) { raw = strings.s
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { createRef, useCallback, useState } from 'react'; //import { styled } from '@superset-ui/core';
+import React, { createRef, useCallback, useEffect, useState } from 'react'; //import { styled } from '@superset-ui/core';
 
 import { BubbleChart } from './components/BubbleChart';
 import { ensureIsArray, styled } from '@superset-ui/core'; // The following Styles component is a <div> element, which has been styled using Emotion
@@ -90,8 +90,6 @@ var Styles = styled.div(_templateObject || (_templateObject = _taggedTemplateLit
  */
 
 export default function BubblePlot(props) {
-  var _props$filterState$fi, _props$filterState, _props$filterState$fi2;
-
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
   var {
@@ -101,7 +99,8 @@ export default function BubblePlot(props) {
     filters,
     setDataMask,
     emitCrossFilters,
-    all_columns
+    all_columns,
+    active_selection
   } = props;
   var data2 = data.map(value => {
     var prop = {};
@@ -124,7 +123,10 @@ export default function BubblePlot(props) {
   // });
 
   console.log('Plugin Bubble props', props);
-  var [filterPost, setFilterPost] = useState((_props$filterState$fi = (_props$filterState = props.filterState) == null ? void 0 : (_props$filterState$fi2 = _props$filterState.filters) == null ? void 0 : _props$filterState$fi2.ID_PAGE) != null ? _props$filterState$fi : []); //const [filterPost, setFilterPost] = useState([]);
+  var [filterPost, setFilterPost] = useState([]);
+  useEffect(() => {
+    setFilterPost((filters == null ? void 0 : filters.ID_PAGE) || []);
+  }, [filters]); //const [filterPost, setFilterPost] = useState([]);
 
   var isActiveFilterValue = useCallback(function isActiveFilterValue(key, val) {
     var _filters$key2;
@@ -203,57 +205,19 @@ export default function BubblePlot(props) {
 
     setDataMask(getCrossFilterDataMask(key, val).dataMask);
   }, [emitCrossFilters, getCrossFilterDataMask, setDataMask]);
-  /*useEffect(() => {
-    console.log('DATA BUBBLEPLOT :', filterPost);
-    const dataMask = {
-      extraFormData: {
-        filters:
-          filterPost.length > 0 ? ['ID_PAGE'].map((col, idx) => {
-            return {
-              col,
-              op: 'IN' as const,
-              val: filterPost as (string | number | boolean)[],
-            };
-          }) : [],
-      },
-      filterState: {
-        label: 'ID_PAGE',
-        value: filterPost,
-        //selectedValues: ['any'],
-        filters: {
-          'ID_PAGE': filterPost,
-        }
-      },
-    };
-    console.log('dataMask bubble', dataMask);
-    props.setDataMask(dataMask);
-  }, [filterPost])*/
-
   return /*#__PURE__*/React.createElement(BubbleChart, {
-    data: data2,
+    data: data2.filter(item => {
+      if (filterPost.length > 0) {
+        console.log('Item:', item);
+        return filterPost.includes(item.ID_PAGE);
+      }
+
+      return true;
+    }),
     width: width,
     height: height,
     filterPosts: filterPost,
-    setFilterPost: toggleFilter
-  }) // <Styles
-  //   ref={rootElem}
-  //   boldText={props.boldText}
-  //   headerFontSize={props.headerFontSize}
-  //   height={height}
-  //   width={width}
-  // >
-  // </Styles>
-  // <Styles
-  //   ref={rootElem}
-  //   boldText={props.boldText}
-  //   headerFontSize={props.headerFontSize}
-  //   height={height}
-  //   width={width}
-  // >
-  //   <button onClick={() => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])}>Set Filter</button>
-  //   <pre>
-  //     {JSON.stringify(data, null, 2)}
-  //   </pre>
-  // </Styles>
-  ;
+    isFiltereable: active_selection,
+    setFilterPost: active_selection ? toggleFilter : () => {}
+  });
 }

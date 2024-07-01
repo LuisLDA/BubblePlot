@@ -32,6 +32,19 @@ const queryMode: ControlConfig<'RadioButtonControl'> = {
 };
 
 
+
+const selectionMode = {
+  name: 'active_selection',
+  config: {
+    type: 'CheckboxControl',
+    label: t('Active Filter Selection'),
+    renderTrigger: true,
+    default: false,
+    description: t('Activate filter selection on plugin'),
+  },
+};
+
+
 const config: ControlPanelConfig = {
   /**
    * The control panel is split into two tabs: "Query" and
@@ -215,6 +228,9 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        [
+          selectionMode
+        ]
       ],
     },
   ],

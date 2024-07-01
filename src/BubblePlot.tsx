@@ -66,7 +66,7 @@ const Styles = styled.div<BubblePlotStylesProps>`
 export default function BubblePlot(props: BubblePlotProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
-  const { data, height, width, filters, setDataMask, emitCrossFilters, all_columns } = props;
+  const { data, height, width, filters, setDataMask, emitCrossFilters, all_columns, active_selection } = props;
 
 
 
@@ -101,7 +101,13 @@ export default function BubblePlot(props: BubblePlotProps) {
 
   console.log('Plugin Bubble props', props);
 
-  const [filterPost, setFilterPost] = useState(props.filterState?.filters?.ID_PAGE ?? []);
+  const [filterPost, setFilterPost] = useState<string[]>([]);
+
+
+  useEffect(() => {
+    setFilterPost(filters?.ID_PAGE || []);
+  }, [filters]);
+
 
   //const [filterPost, setFilterPost] = useState([]);
 
@@ -194,63 +200,26 @@ export default function BubblePlot(props: BubblePlotProps) {
 
 
 
-
-
-
-  /*useEffect(() => {
-    console.log('DATA BUBBLEPLOT :', filterPost);
-    const dataMask = {
-      extraFormData: {
-        filters:
-          filterPost.length > 0 ? ['ID_PAGE'].map((col, idx) => {
-            return {
-              col,
-              op: 'IN' as const,
-              val: filterPost as (string | number | boolean)[],
-            };
-          }) : [],
-      },
-      filterState: {
-        label: 'ID_PAGE',
-        value: filterPost,
-        //selectedValues: ['any'],
-        filters: {
-          'ID_PAGE': filterPost,
-        }
-      },
-    };
-    console.log('dataMask bubble', dataMask);
-    props.setDataMask(dataMask);
-  }, [filterPost])*/
-
   return (
 
+    <BubbleChart
+      data={
+        data2.filter((item: any) => {
+          if (filterPost.length > 0) {
+            console.log('Item:', item);
+            return filterPost.includes(item.ID_PAGE);
+          }
+          return true
+        })
+      }
+      width={width}
+      height={height}
+      filterPosts={filterPost}
+      isFiltereable={active_selection}
+      setFilterPost={
+        active_selection ? toggleFilter : () => { }
+      }
+    />
 
-
-    <BubbleChart data={data2} width={width} height={height} filterPosts={filterPost} setFilterPost={toggleFilter} />
-
-    // <Styles
-    //   ref={rootElem}
-    //   boldText={props.boldText}
-    //   headerFontSize={props.headerFontSize}
-    //   height={height}
-    //   width={width}
-    // >
-
-    // </Styles>
-
-    // <Styles
-    //   ref={rootElem}
-    //   boldText={props.boldText}
-    //   headerFontSize={props.headerFontSize}
-    //   height={height}
-    //   width={width}
-    // >
-
-    //   <button onClick={() => toggleFilter("ID_PAGE", ["100109035146827", "100113755207433"])}>Set Filter</button>
-    //   <pre>
-    //     {JSON.stringify(data, null, 2)}
-    //   </pre>
-    // </Styles>
   );
 }

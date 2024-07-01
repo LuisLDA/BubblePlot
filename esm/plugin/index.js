@@ -37,7 +37,7 @@ export default class BubblePlot extends ChartPlugin {
       description: 'Bubble Plot',
       name: t('Bubble Plot'),
       thumbnail,
-      behaviors: [Behavior.InteractiveChart //Behavior.DrillToDetail,
+      behaviors: [Behavior.NativeFilter, Behavior.InteractiveChart //Behavior.DrillToDetail,
       //Behavior.DrillBy,
       ]
     });

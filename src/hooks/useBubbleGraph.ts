@@ -6,7 +6,7 @@ import am5locales_de_DE from "@amcharts/amcharts5/locales/de_DE";
 import { getRandomColor } from '../utils/getRandomColor';
 
 
-export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilterPost }: { id: string, filterAxisX: any, filterAxisY: any, dataAxis: any[], setFilterPost: any }) => {
+export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilterPost, isFiltereable }: { id: string, filterAxisX: any, filterAxisY: any, dataAxis: any[], setFilterPost: any, isFiltereable: boolean }) => {
 
 
 
@@ -49,8 +49,8 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             //Filter
             //panX: false,
             //panY: false,
-            panX: true,
-            panY: true,
+            panX: !isFiltereable,
+            panY: !isFiltereable,
             wheelY: "zoomXY",
             pinchZoomX: true,
             pinchZoomY: true,
@@ -232,52 +232,53 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             //xAxis: xAxis,
             //yAxis: yAxis,
             snapToSeries: [series],
-            //behavior: "selectXY",
+            behavior: isFiltereable ? "selectXY" : "none",
         }));
 
-       /* cursor.events.on("selectended", function (ev) {
+        if (isFiltereable) {
+            cursor.events.on("selectended", function (ev) {
 
-            // Get actors
-            let cursor = ev.target;
+                // Get actors
+                let cursor = ev.target;
 
-            //console.log("Evento Target:", cursor);
+                //console.log("Evento Target:", cursor);
 
-            let x1 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("downPositionX")!));
-            let x2 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("positionX")!));
-            let y1 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("downPositionY")!));
-            let y2 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("positionY")!));
+                let x1 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("downPositionX")!));
+                let x2 = xAxis.positionToValue(xAxis.toAxisPosition(cursor.getPrivate("positionX")!));
+                let y1 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("downPositionY")!));
+                let y2 = yAxis.positionToValue(yAxis.toAxisPosition(cursor.getPrivate("positionY")!));
 
-            // Assemble bounds
-            let bounds = {
-                left: x1 > x2 ? x2 : x1,
-                right: x1 > x2 ? x1 : x2,
-                top: y1 < y2 ? y1 : y2,
-                bottom: y1 < y2 ? y2 : y1
-            };
+                // Assemble bounds
+                let bounds = {
+                    left: x1 > x2 ? x2 : x1,
+                    right: x1 > x2 ? x1 : x2,
+                    top: y1 < y2 ? y1 : y2,
+                    bottom: y1 < y2 ? y2 : y1
+                };
 
 
-            // Filter data items within boundaries
-            let results: am5.DataItem<am5xy.ILineSeriesDataItem>[] = [];
-            am5.array.each(series.dataItems, function (dataItem) {
-                let x = dataItem.get("valueX");
-                let y = dataItem.get("valueY");
-                //let z = dataItem.get("valueZ");
-                if (am5.math.inBounds({ x: x!, y: y! }, bounds)) {
-                    results.push(dataItem);
-                }
+                // Filter data items within boundaries
+                let results: am5.DataItem<am5xy.ILineSeriesDataItem>[] = [];
+                am5.array.each(series.dataItems, function (dataItem) {
+                    let x = dataItem.get("valueX");
+                    let y = dataItem.get("valueY");
+                    //let z = dataItem.get("valueZ");
+                    if (am5.math.inBounds({ x: x!, y: y! }, bounds)) {
+                        results.push(dataItem);
+                    }
+                });
+
+
+                // Results
+                console.log(results);
+                // @ts-ignore
+
+                //FILTER
+                setFilterPost("ID_PAGE", results.map((item) => { return item.dataContext!!.ID_PAGE }));
+
             });
 
-
-            // Results
-            //console.log(results);
-            // @ts-ignore
-
-            //FILTER
-            setFilterPost("ID_PAGE", results.map((item) => { return item.dataContext!!.ID_PAGE }));
-
-        });*/
-
-
+        }
 
 
         setScrollbars(chart, root);

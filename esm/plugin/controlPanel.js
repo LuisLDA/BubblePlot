@@ -28,6 +28,16 @@ var queryMode = {
   options: [[QueryMode.Raw, QueryModeLabel[QueryMode.Raw]]] //mapStateToProps: ({ controls }) => ({ value: QueryMode.Raw }),
 
 };
+var selectionMode = {
+  name: 'active_selection',
+  config: {
+    type: 'CheckboxControl',
+    label: t('Active Filter Selection'),
+    renderTrigger: true,
+    default: false,
+    description: t('Activate filter selection on plugin')
+  }
+};
 var config = {
   /**
    * The control panel is split into two tabs: "Query" and
@@ -180,7 +190,7 @@ var config = {
         renderTrigger: true,
         description: t('The size of your header font')
       }
-    }]]
+    }], [selectionMode]]
   }]
 };
 export default config;
