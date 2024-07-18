@@ -16,8 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t, validateNonEmpty, QueryMode } from '@superset-ui/core';
-import { ControlPanelConfig, sections, ControlConfig, sharedControls, QueryModeLabel } from '@superset-ui/chart-controls';
+import { t, QueryMode } from '@superset-ui/core';
+import { ControlPanelConfig, ControlConfig, sharedControls, QueryModeLabel, Dataset } from '@superset-ui/chart-controls';
 
 
 const queryMode: ControlConfig<'RadioButtonControl'> = {
@@ -27,7 +27,7 @@ const queryMode: ControlConfig<'RadioButtonControl'> = {
   value: QueryMode.Raw,
   options: [
     [QueryMode.Raw, QueryModeLabel[QueryMode.Raw]],
-  ],
+  ]
   //mapStateToProps: ({ controls }) => ({ value: QueryMode.Raw }),
 };
 
@@ -149,7 +149,7 @@ const config: ControlPanelConfig = {
               allowAll: true,
               commaChoosesOption: false,
               //raw
-              mapStateToProps: ({ datasource, controls }, controlState) => ({
+              mapStateToProps: ({ datasource, controls }: any, controlState: any) => ({
                 options: datasource?.columns || [],
                 queryMode: QueryMode.Raw,
               }),
@@ -230,6 +230,25 @@ const config: ControlPanelConfig = {
         ],
         [
           selectionMode
+        ],
+        [
+          {
+            name: 'order_by_cols',
+            config: {
+              type: 'SelectControl',
+              label: t('Ordenar por:'),
+              description: t('Order results by selected columns'),
+              multi: true,
+              default: [],
+              mapStateToProps: ({ datasource }: any) => ({
+                choices: datasource?.hasOwnProperty('order_by_choices')
+                  ? (datasource as Dataset)?.order_by_choices
+                  : datasource?.columns || [],
+              }),
+              //visibility: true,
+              resetOnHide: false,
+            },
+          },
         ]
       ],
     },

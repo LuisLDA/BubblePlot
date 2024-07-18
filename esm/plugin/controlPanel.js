@@ -190,7 +190,26 @@ var config = {
         renderTrigger: true,
         description: t('The size of your header font')
       }
-    }], [selectionMode]]
+    }], [selectionMode], [{
+      name: 'order_by_cols',
+      config: {
+        type: 'SelectControl',
+        label: t('Ordenar por:'),
+        description: t('Order results by selected columns'),
+        multi: true,
+        default: [],
+        mapStateToProps: _ref2 => {
+          var {
+            datasource
+          } = _ref2;
+          return {
+            choices: datasource != null && datasource.hasOwnProperty('order_by_choices') ? datasource == null ? void 0 : datasource.order_by_choices : (datasource == null ? void 0 : datasource.columns) || []
+          };
+        },
+        //visibility: true,
+        resetOnHide: false
+      }
+    }]]
   }]
 };
 export default config;
