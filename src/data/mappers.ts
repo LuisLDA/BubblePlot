@@ -1,11 +1,10 @@
-import { AnyObject } from "antd/es/_util/type";
 import { getImageUser } from "../utils/getImageUser";
 import icons from "./icons";
 
-export const mapToBubbleData = (data: AnyObject[], filterAxisX: string, filterAxisY: string) => {
-  return data.map((item: AnyObject) => {
+export const mapToBubbleData = (data: any, filterAxisX: string, filterAxisY: string) => {
+  return data.map((item: any) => {
 
-    // Intenta convertir a número, si falla asigna 0
+    // Intenta convertir a número, si falla asigna 0 
     const xValue = Number(item[filterAxisX]);
     const yValue = Number(item[filterAxisY]);
 

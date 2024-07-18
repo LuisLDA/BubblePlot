@@ -21,16 +21,16 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
         <div style="display:flex;flex-direction:column">
             <span style="font-weight:bold;">Usuario:</span>
             <span style="font-weight:bold;">Red Social:</span>
-            <span style="font-weight:bold;">${filterAxisX}:</span>
-            <span style="font-weight:bold;">${filterAxisY}:</span>
-            ${(filterAxisX !== 'Seguidores' && filterAxisY !== 'Seguidores') ? '<span style="font-weight:bold;">Seguidores:</span>' : ''}
+            ${filterAxisX !== 'Seguidores' ? `<span style="font-weight:bold;">${filterAxisX}:</span>` : ''}
+            ${filterAxisY !== 'Seguidores' ? `<span style="font-weight:bold;">${filterAxisY}:</span>` : ''}
+            <span style="font-weight:bold;">Seguidores:</span>
         </div>
         <div style="display:flex;flex-direction:column">
             <span style="float: right;">{user}</span>
             <span style="float: right;">{red}</span>
-            <span style="float: right;">{valueX}</span>
-            <span style="float: right;">{valueY}</span>
-            ${(filterAxisX !== 'Seguidores' && filterAxisY !== 'Seguidores') ? `<span style="float: right;">{value}</span>` : ''}
+            ${filterAxisX !== 'Seguidores' ? `<span style="float: right;">{valueX}</span>` : ''}
+            ${filterAxisY !== 'Seguidores' ? `<span style="float: right;">{valueY}</span>` : ''}
+            <span style="float: right;">{value}</span>
         </div>
      </div>`;
 
