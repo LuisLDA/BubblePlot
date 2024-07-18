@@ -13,7 +13,7 @@ export var useBubbleGraph = _ref => {
     setFilterPost,
     isFiltereable
   } = _ref;
-  var tooltipHtml = "\n      <div style=\"display:flex;gap:8px;align-items:center;\">\n        <div style=\"display:flex;flex-direction:column\">\n            <img src=\"{bulletSettings.src}\" style=\"width: 50px; height: 50px; margin: 0 auto; display: block; border-radius: 25px\"/>      \n        </div>\n        <div style=\"display:flex;flex-direction:column\">\n            <span style=\"font-weight:bold;\">Usuario:</span>\n            <span style=\"font-weight:bold;\">Red Social:</span>\n            <span style=\"font-weight:bold;\">" + filterAxisX + ":</span>\n            <span style=\"font-weight:bold;\">" + filterAxisY + ":</span>\n            <span style=\"font-weight:bold;\">Seguidores:</span>\n        </div>\n        <div style=\"display:flex;flex-direction:column\">\n            <span style=\"float: right;\">{user}</span>\n            <span style=\"float: right;\">{red}</span>\n            <span style=\"float: right;\">{valueX}</span>\n            <span style=\"float: right;\">{valueY}</span>\n            <span style=\"float: right;\">{value}</span>\n        </div>\n     </div>";
+  var tooltipHtml = "\n      <div style=\"display:flex;gap:8px;align-items:center;\">\n        <div style=\"display:flex;flex-direction:column\">\n            <img src=\"{bulletSettings.src}\" style=\"width: 50px; height: 50px; margin: 0 auto; display: block; border-radius: 25px\"/>      \n        </div>\n        <div style=\"display:flex;flex-direction:column\">\n            <span style=\"font-weight:bold;\">Usuario:</span>\n            <span style=\"font-weight:bold;\">Red Social:</span>\n            <span style=\"font-weight:bold;\">" + filterAxisX + ":</span>\n            <span style=\"font-weight:bold;\">" + filterAxisY + ":</span>\n            " + (filterAxisX !== 'Seguidores' && filterAxisY !== 'Seguidores' ? '<span style="font-weight:bold;">Seguidores:</span>' : '') + "\n        </div>\n        <div style=\"display:flex;flex-direction:column\">\n            <span style=\"float: right;\">{user}</span>\n            <span style=\"float: right;\">{red}</span>\n            <span style=\"float: right;\">{valueX}</span>\n            <span style=\"float: right;\">{valueY}</span>\n            " + (filterAxisX !== 'Seguidores' && filterAxisY !== 'Seguidores' ? "<span style=\"float: right;\">{value}</span>" : '') + "\n        </div>\n     </div>";
   useLayoutEffect(() => {
     var _root$_logo, _tooltip$get;
 
@@ -118,7 +118,7 @@ export var useBubbleGraph = _ref => {
       var imageContainer = bulletContainer.children.push(am5.Container.new(root, {
         mask: circle
       }));
-      var image = imageContainer.children.push(am5.Picture.new(root, {}, imageTemplate));
+      imageContainer.children.push(am5.Picture.new(root, {}, imageTemplate));
       return am5.Bullet.new(root, {
         sprite: bulletContainer
       });
@@ -148,7 +148,7 @@ export var useBubbleGraph = _ref => {
       var imageContainer = bulletContainer.children.push(am5.Container.new(root, {
         mask: circle
       }));
-      var socialIcon = imageContainer.children.push(am5.Picture.new(root, {}, socialIconTemplate));
+      imageContainer.children.push(am5.Picture.new(root, {}, socialIconTemplate));
       return am5.Bullet.new(root, {
         sprite: bulletContainer
       });
@@ -194,10 +194,9 @@ export var useBubbleGraph = _ref => {
 
         console.log(results); // @ts-ignore
         //FILTER
+        //setFilterPost("ID_PAGE", results.map((item) => { return item.dataContext!!.ID_PAGE }));
 
-        setFilterPost("ID_PAGE", results.map(item => {
-          return item.dataContext.ID_PAGE;
-        }));
+        setFilterPost("ID_PAGE", results);
       });
     }
 

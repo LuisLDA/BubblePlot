@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react"
+import { useLayoutEffect } from "react"
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
@@ -23,14 +23,14 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
             <span style="font-weight:bold;">Red Social:</span>
             <span style="font-weight:bold;">${filterAxisX}:</span>
             <span style="font-weight:bold;">${filterAxisY}:</span>
-            <span style="font-weight:bold;">Seguidores:</span>
+            ${(filterAxisX !== 'Seguidores' && filterAxisY !== 'Seguidores') ? '<span style="font-weight:bold;">Seguidores:</span>' : ''}
         </div>
         <div style="display:flex;flex-direction:column">
             <span style="float: right;">{user}</span>
             <span style="float: right;">{red}</span>
             <span style="float: right;">{valueX}</span>
             <span style="float: right;">{valueY}</span>
-            <span style="float: right;">{value}</span>
+            ${(filterAxisX !== 'Seguidores' && filterAxisY !== 'Seguidores') ? `<span style="float: right;">{value}</span>` : ''}
         </div>
      </div>`;
 
@@ -166,7 +166,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
                 })
             );
 
-            let image = imageContainer.children.push(
+            imageContainer.children.push(
                 am5.Picture.new(root, {}, imageTemplate)
             );
 
@@ -212,7 +212,7 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
                 })
             );
 
-            let socialIcon = imageContainer.children.push(
+            imageContainer.children.push(
                 am5.Picture.new(root, {}, socialIconTemplate)
             );
 
@@ -274,7 +274,9 @@ export const useBubbleGraph = ({ id, filterAxisX, filterAxisY, dataAxis, setFilt
                 // @ts-ignore
 
                 //FILTER
-                setFilterPost("ID_PAGE", results.map((item) => { return item.dataContext!!.ID_PAGE }));
+                //setFilterPost("ID_PAGE", results.map((item) => { return item.dataContext!!.ID_PAGE }));
+
+                setFilterPost("ID_PAGE", results);
 
             });
 

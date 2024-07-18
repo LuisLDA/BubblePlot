@@ -16,15 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { createRef, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 //import { styled } from '@superset-ui/core';
-import { BubblePlotProps, DataRecordValue } from './types';
+import { BubblePlotProps } from './types';
 import { BubbleChart } from './components/BubbleChart';
-import {
-  DTTM_ALIAS,
-  ensureIsArray,
-  styled
-} from '@superset-ui/core';
+import { ensureIsArray } from '@superset-ui/core';
 
 // The following Styles component is a <div> element, which has been styled using Emotion
 // For docs, visit https://emotion.sh/docs/styled
@@ -33,27 +29,7 @@ import {
 // imported from @superset-ui/core. For variables available, please visit
 // https://github.com/apache-superset/superset-ui/blob/master/packages/superset-ui-core/src/style/index.ts
 
-const Styles = styled.div<BubblePlotStylesProps>`
-  background-color: ${({ theme }) => theme.colors.secondary.light2};
-  padding: ${({ theme }) => theme.gridUnit * 4}px;
-  border-radius: ${({ theme }) => theme.gridUnit * 2}px;
-  height: ${({ height }) => height}px;
-  width: ${({ width }) => width}px;
 
-  h3 {
-    /* You can use your props to control CSS! */
-    margin-top: 0;
-    margin-bottom: ${({ theme }) => theme.gridUnit * 3}px;
-    font-size: ${({ theme, headerFontSize }) => theme.typography.sizes[headerFontSize]}px;
-    font-weight: ${({ theme, boldText }) => theme.typography.weights[boldText ? 'bold' : 'normal']};
-  }
-
-  pre {
-    height: ${({ theme, headerFontSize, height }) => (
-    height - theme.gridUnit * 12 - theme.typography.sizes[headerFontSize]
-  )}px;
-  }
-`;
 
 /**
  * ******************* WHAT YOU CAN BUILD HERE *******************
@@ -67,8 +43,6 @@ export default function BubblePlot(props: BubblePlotProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
   const { data, height, width, filters, setDataMask, emitCrossFilters, all_columns, active_selection } = props;
-
-
 
 
   const data2 = data.map((value: any) => {
@@ -87,18 +61,6 @@ export default function BubblePlot(props: BubblePlotProps) {
   });
 
 
-  //console.log('DATA BUBBLEPLOT22 :', data2);
-
-
-  const rootElem = createRef<HTMLDivElement>();
-
-  // Often, you just want to access the DOM and do whatever you want.
-  // Here, you can do that with createRef, and the useEffect hook.
-  // useEffect(() => {
-  //   const root = rootElem.current as HTMLElement;
-  //   console.log('Plugin element', root);
-  // });
-
   console.log('Plugin Bubble props', props);
 
   const [filterPost, setFilterPost] = useState<string[]>([]);
@@ -107,11 +69,6 @@ export default function BubblePlot(props: BubblePlotProps) {
   useEffect(() => {
     setFilterPost(filters?.ID_PAGE || []);
   }, [filters]);
-
-
-  //const [filterPost, setFilterPost] = useState([]);
-
-
 
 
   const isActiveFilterValue = useCallback(
@@ -125,8 +82,21 @@ export default function BubblePlot(props: BubblePlotProps) {
   );
 
 
-  const getCrossFilterDataMask = (key: string, value: any) => {
+  const getCrossFilterDataMask = (key: string, results: any) => {
     let updatedFilters = { ...(filters || {}) };
+
+
+    const keys: any = [];
+    const value: any = [];
+
+    results.forEach((item: any) => {
+      const key = item.dataContext.user;
+      const val = item.dataContext.ID_PAGE;
+      keys.push(key);
+      value.push(val);
+    });
+
+
     if (filters && isActiveFilterValue(key, value)) {
       updatedFilters = {};
     } else {
@@ -175,7 +145,7 @@ export default function BubblePlot(props: BubblePlotProps) {
               }),
         },
         filterState: {
-          label: labelElements.join(', '),
+          label: keys.join(', '),
           value: groupByValues.length ? groupByValues : null,
           filters:
             updatedFilters && Object.keys(updatedFilters).length

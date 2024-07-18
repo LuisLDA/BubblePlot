@@ -2,14 +2,16 @@ import { getImageUser } from "../utils/getImageUser";
 import icons from "./icons";
 export var mapToBubbleData = (data, filterAxisX, filterAxisY) => {
   return data.map(item => {
-    //if (item.Seguidores === 'No registrado') item.Seguidores = 0;
+    // Intenta convertir a número, si falla asigna 0
+    var xValue = Number(item[filterAxisX]);
+    var yValue = Number(item[filterAxisY]);
     return {
       "ID_PAGE": item.ID_PAGE,
       "title": item.ID,
       "user": item.USERNAME,
       "red": item.RED_NAME || icons[item.RED - 1].red,
-      "x": typeof item[filterAxisX] === 'string' ? 0 : item[filterAxisX],
-      "y": typeof item[filterAxisY] === 'string' ? 0 : item[filterAxisY],
+      "x": isNaN(xValue) ? 0 : xValue,
+      "y": isNaN(yValue) ? 0 : yValue,
       "value": item.Seguidores || 0,
       bulletSettings: {
         src: getImageUser(item.ID_PAGE, item.USERNAME, item.RED)
