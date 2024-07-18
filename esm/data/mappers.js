@@ -2,7 +2,7 @@ import { getImageUser } from "../utils/getImageUser";
 import icons from "./icons";
 export var mapToBubbleData = (data, filterAxisX, filterAxisY) => {
   return data.map(item => {
-    // Intenta convertir a número, si falla asigna 0
+    // Intenta convertir a número, si falla asigna 0 
     var xValue = Number(item[filterAxisX]);
     var yValue = Number(item[filterAxisY]);
     return {
